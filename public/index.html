@@ -232,6 +232,34 @@ nav.scrolled{background:rgba(3,3,15,0.92);backdrop-filter:blur(24px);-webkit-bac
 .gh-link-dark:hover{border-color:rgba(123,47,255,0.35);background:rgba(123,47,255,0.06);color:var(--dark-text)}
 @media(max-width:768px){.proj-grid{grid-template-columns:1fr}#projects .sec-inner{padding:5rem 1.25rem}}
 
+/* ══════ CARDSWAP STYLES ══════ */
+.card-swap-container {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  perspective: 900px;
+  overflow: visible;
+  margin-top: 3.5rem;
+}
+.card-swap-container .proj-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  min-height: 380px;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  margin: 0 !important;
+}
+@media (max-width: 768px) {
+  .card-swap-container { height: 400px; }
+  .card-swap-container .proj-card { min-height: 320px; }
+}
+
 /* ════════════════════════════════════════
    CONTACT — LIGHT
 ════════════════════════════════════════ */
@@ -461,7 +489,7 @@ nav.scrolled{background:rgba(3,3,15,0.92);backdrop-filter:blur(24px);-webkit-bac
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
-    <div class="proj-grid" id="proj-grid"></div>
+    <div class="card-swap-container" id="proj-grid"></div>
   </div>
 </section>
 
@@ -603,7 +631,7 @@ SKILLS.forEach((s,i)=>{
   </div>`;
 });
 
-/* ══════ BUILD PROJECT CARDS ══════ */
+/* ══════ BUILD PROJECT CARDSWAP ══════ */
 const pg = document.getElementById('proj-grid');
 PROJECTS.forEach((p,i)=>{
   const live = p.live ? `<a href="${p.live}" target="_blank" rel="noopener" class="proj-link-live" style="color:${p.color}">
@@ -612,8 +640,10 @@ PROJECTS.forEach((p,i)=>{
   </a>` : '';
   const award = p.award ? `<span class="tag-award2">🏆 ${p.award}</span>` : '';
   const liveTag = p.status==='active' ? `<span class="tag-live2">Active</span>` : '';
+  
+  // Note: removed class="reveal" to prevent scroll interference with 3D stacking
   pg.innerHTML += `
-  <div class="proj-card reveal" style="transition-delay:${(i%2)*0.1}s"
+  <div class="proj-card" id="card-${i}"
     onmouseenter="this.style.borderColor='${p.color}40';this.style.boxShadow='0 0 50px ${p.color}14,0 12px 40px rgba(0,0,0,0.5)';this.querySelector('.proj-title').style.color='${p.color}'"
     onmouseleave="this.style.borderColor='rgba(255,255,255,0.06)';this.style.boxShadow='none';this.querySelector('.proj-title').style.color='var(--dark-text)'">
     <div class="proj-top-bar" style="background:linear-gradient(90deg,${p.color},${p.color}40)"></div>
@@ -632,6 +662,56 @@ PROJECTS.forEach((p,i)=>{
     </div>
   </div>`;
 });
+
+/* ══════ CARDSWAP LOGIC ══════ */
+(function(){
+  const cardDistance = 60, verticalDistance = 70, delay = 5000, skewAmount = 6;
+  const config = { ease: 'elastic.out(0.6,0.9)', durDrop: 2, durMove: 2, durReturn: 2, promoteOverlap: 0.9, returnDelay: 0.05 };
+  
+  const els = Array.from(pg.querySelectorAll('.proj-card'));
+  let order = els.map((_,i)=>i);
+  let tlRef = null;
+  let interval = null;
+
+  const makeSlot = (i, distX, distY, total) => ({ x: i * distX, y: -i * distY, z: -i * distX * 1.5, zIndex: total - i });
+  
+  const placeNow = (el, slot, skew) => {
+    gsap.set(el, { x: slot.x, y: slot.y, z: slot.z, xPercent: -50, yPercent: -50, skewY: skew, transformOrigin: 'center center', zIndex: slot.zIndex, force3D: true });
+  };
+
+  els.forEach((el, i) => placeNow(el, makeSlot(i, cardDistance, verticalDistance, els.length), skewAmount));
+
+  const swap = () => {
+    if (order.length < 2) return;
+    const [front, ...rest] = order;
+    const elFront = els[front];
+    const tl = gsap.timeline();
+    tlRef = tl;
+
+    tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease });
+    tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+    
+    rest.forEach((idx, i) => {
+      const el = els[idx];
+      const slot = makeSlot(i, cardDistance, verticalDistance, els.length);
+      tl.set(el, { zIndex: slot.zIndex }, 'promote');
+      tl.to(el, { x: slot.x, y: slot.y, z: slot.z, duration: config.durMove, ease: config.ease }, `promote+=${i * 0.15}`);
+    });
+
+    const backSlot = makeSlot(els.length - 1, cardDistance, verticalDistance, els.length);
+    tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
+    tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex }), undefined, 'return');
+    tl.to(elFront, { x: backSlot.x, y: backSlot.y, z: backSlot.z, duration: config.durReturn, ease: config.ease }, 'return');
+    
+    tl.call(() => { order = [...rest, front]; });
+  };
+
+  setTimeout(swap, 1000); // initial swap
+  interval = setInterval(swap, delay);
+
+  pg.addEventListener('mouseenter', () => { if(tlRef) tlRef.pause(); clearInterval(interval); });
+  pg.addEventListener('mouseleave', () => { if(tlRef) tlRef.play(); interval = setInterval(swap, delay); });
+})();
 
 /* ══════ TICKER ══════ */
 const track = document.getElementById('ticker-track');
@@ -790,16 +870,7 @@ setInterval(()=>{
   gsap.from(sel,{y:38,opacity:0,duration:.9,stagger:.12,ease:'power3.out',scrollTrigger:{trigger:sel.split(',')[0].split(' ')[0],start:'top 80%'}});
 });
 
-/* ══════ 3D TILT ON PROJECTS ══════ */
-document.querySelectorAll('.proj-card').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const rx=(e.clientY-(r.top+r.height/2))/(r.height/2)*4;
-    const ry=(e.clientX-(r.left+r.width/2))/(r.width/2)*-4;
-    card.style.transform=`translateY(-4px) perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-  });
-  card.addEventListener('mouseleave',()=>{card.style.transform='translateY(0) perspective(1200px) rotateX(0) rotateY(0)';});
-});
+/* ══════ (3D TILT REMOVED FOR CARDSWAP) ══════ */
 
 /* ══════ MAGNETIC BUTTONS ══════ */
 document.querySelectorAll('.btn-primary,.btn-ghost-dark').forEach(btn=>{
