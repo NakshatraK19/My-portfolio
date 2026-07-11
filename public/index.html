@@ -681,14 +681,21 @@ PROJECTS.forEach((p,i)=>{
 
   els.forEach((el, i) => placeNow(el, makeSlot(i, cardDistance, verticalDistance, els.length), skewAmount));
 
-  const swap = () => {
+  const swap = (count = 1) => {
     if (order.length < 2) return;
-    const [front, ...rest] = order;
-    const elFront = els[front];
+    if (tlRef && tlRef.isActive()) return; // Prevent multiple clicks from messing up animation
+
+    const movingToBack = order.slice(0, count);
+    const rest = order.slice(count);
+    
     const tl = gsap.timeline();
     tlRef = tl;
 
-    tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease });
+    movingToBack.forEach((idx, i) => {
+        const elFront = els[idx];
+        tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease }, i * 0.15);
+    });
+
     tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
     
     rest.forEach((idx, i) => {
@@ -698,19 +705,38 @@ PROJECTS.forEach((p,i)=>{
       tl.to(el, { x: slot.x, y: slot.y, z: slot.z, duration: config.durMove, ease: config.ease }, `promote+=${i * 0.15}`);
     });
 
-    const backSlot = makeSlot(els.length - 1, cardDistance, verticalDistance, els.length);
-    tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
-    tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex }), undefined, 'return');
-    tl.to(elFront, { x: backSlot.x, y: backSlot.y, z: backSlot.z, duration: config.durReturn, ease: config.ease }, 'return');
+    const backLabel = `promote+=${config.durMove * config.returnDelay}`;
+    tl.addLabel('return', backLabel);
     
-    tl.call(() => { order = [...rest, front]; });
+    movingToBack.forEach((idx, i) => {
+      const elFront = els[idx];
+      const backSlotIndex = rest.length + i;
+      const backSlot = makeSlot(backSlotIndex, cardDistance, verticalDistance, els.length);
+      tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex }), undefined, 'return');
+      tl.to(elFront, { x: backSlot.x, y: backSlot.y, z: backSlot.z, duration: config.durReturn, ease: config.ease }, `return+=${i * 0.15}`);
+    });
+    
+    tl.call(() => { order = [...rest, ...movingToBack]; });
   };
 
-  setTimeout(swap, 1000); // initial swap
-  interval = setInterval(swap, delay);
+  els.forEach((el, elIndex) => {
+    el.style.cursor = 'pointer'; // indicate clickability
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('a') || e.target.closest('button')) return;
+      const pos = order.indexOf(elIndex);
+      if (pos > 0) {
+        clearInterval(interval);
+        swap(pos);
+        interval = setInterval(() => swap(1), delay);
+      }
+    });
+  });
+
+  setTimeout(() => swap(1), 1000); // initial swap
+  interval = setInterval(() => swap(1), delay);
 
   pg.addEventListener('mouseenter', () => { if(tlRef) tlRef.pause(); clearInterval(interval); });
-  pg.addEventListener('mouseleave', () => { if(tlRef) tlRef.play(); interval = setInterval(swap, delay); });
+  pg.addEventListener('mouseleave', () => { if(tlRef) tlRef.play(); interval = setInterval(() => swap(1), delay); });
 })();
 
 /* ══════ TICKER ══════ */
