@@ -40,8 +40,7 @@ a,button{cursor:none;border:none;background:none;font:inherit;text-decoration:no
 @media(hover:none),(pointer:coarse){body,a,button{cursor:auto}}
 
 /* ══════════ BACKGROUND ══════════ */
-#dot-field-container { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-.bg-halo{position:absolute;top:0;left:50%;transform:translateX(-50%);width:1200px;height:600px;background:conic-gradient(from 180deg at 50% -5%, transparent 45%, rgba(124,145,182,0.3) 49%, rgba(124,145,182,0.5) 50%, rgba(124,145,182,0.3) 51%, transparent 55%);pointer-events:none;z-index:0;opacity:0.8}
+#dot-field-container { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; will-change: opacity; }
 
 /* ══════════ CURSOR ══════════ */
 #cur-dot,#cur-ring{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-200px,-200px)}
@@ -151,14 +150,15 @@ nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-bac
 .sec-sub{font-size:16px;color:var(--color-moon-mist);max-width:640px;margin:0 auto}
 
 /* ══════════ HERO ══════════ */
-#about{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 24px 60px;z-index:1}
+#about{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 24px 60px;z-index:1;overflow:hidden}
+.hero-vid { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; pointer-events:none; mask-image:linear-gradient(to bottom, black 70%, transparent 100%); -webkit-mask-image:linear-gradient(to bottom, black 70%, transparent 100%); will-change:opacity, filter; }
 .hero-inner{max-width:1200px;margin:0 auto;width:100%;text-align:center;position:relative;z-index:2}
 .hero-wordmark{font-family:var(--font-display);font-weight:500;font-size:clamp(3.5rem, 10vw, 8rem);line-height:1.1;background:linear-gradient(0deg, #d8ecf8 0%, #98c0ef 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:24px;text-shadow:0 0 12px rgba(238,186,247,0.24)}
-.hero-sub{font-size:18px;color:var(--color-moon-mist);max-width:640px;margin:0 auto 48px;line-height:1.5}
+.hero-sub{font-size:18px;color:var(--color-moon-mist);max-width:640px;margin:0 auto 48px;line-height:1.5;text-shadow:0 2px 4px rgba(5,6,15,0.8)}
 .hero-actions{display:flex;justify-content:center;gap:16px}
 .btn-primary{padding:12px 24px;border-radius:6px;background:var(--color-void-violet);color:var(--color-pure-white);font-weight:500;font-size:16px;transition:all .3s}
 .btn-primary:hover{background:#562bd9;box-shadow:0 0 20px rgba(102,58,243,0.4)}
-.btn-ghost{padding:12px 24px;border-radius:999px;background:var(--color-luminous-fill);border:1px solid var(--color-glass-edge);color:var(--color-pure-white);font-size:16px;font-weight:500;transition:all .3s}
+.btn-ghost{padding:12px 24px;border-radius:999px;background:var(--color-luminous-fill);border:1px solid var(--color-glass-edge);color:var(--color-pure-white);font-size:16px;font-weight:500;transition:all .3s;backdrop-filter:blur(10px)}
 .btn-ghost:hover{background:rgba(186,214,247,0.12)}
 
 /* ══════════ SKILLS ══════════ */
@@ -224,8 +224,6 @@ nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-bac
   </svg>
 </div>
 
-<div class="bg-halo"></div>
-
 <div id="cur-ring"></div>
 <div id="cur-dot"></div>
 
@@ -240,6 +238,7 @@ nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-bac
 </nav>
 
 <section id="about">
+  <video id="hero-vid" class="hero-vid" autoplay loop muted playsinline src="16-9.mp4"></video>
   <div class="hero-inner">
     <div class="sec-eyebrow-wrap">
       <div class="sec-eyebrow-line"></div>
@@ -384,6 +383,50 @@ PROJECTS.forEach((p,i)=>{
     </div>
   </div>`;
 });
+
+/* ══════ BACKGROUND TRANSITION LOGIC ══════ */
+(function(){
+  const vid = document.getElementById('hero-vid');
+  const dotContainer = document.getElementById('dot-field-container');
+  
+  if (vid && dotContainer) {
+    // Scroll-driven crossfade
+    gsap.to(vid, {
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      },
+      opacity: 0,
+      filter: 'saturate(0.2) brightness(0.5)',
+      onUpdate: function() {
+        vid.playbackRate = 1 - (this.progress * 0.8);
+      }
+    });
+
+    gsap.to(dotContainer, {
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'center top',
+        end: 'bottom top',
+        scrub: true
+      },
+      opacity: 1
+    });
+
+    // Pause video when out of viewport for performance
+    ScrollTrigger.create({
+      trigger: '#about',
+      start: 'top bottom',
+      end: 'bottom top',
+      onEnter: () => vid.play(),
+      onEnterBack: () => vid.play(),
+      onLeave: () => vid.pause(),
+      onLeaveBack: () => vid.pause()
+    });
+  }
+})();
 
 /* ══════ CARDSWAP LOGIC ══════ */
 (function(){
