@@ -50,6 +50,86 @@ a,button{cursor:none;border:none;background:none;font:inherit;text-decoration:no
 .cur-link #cur-dot{background:var(--color-ice-highlight)!important;box-shadow:0 0 10px var(--color-ice-highlight)!important}
 .cur-link #cur-ring{width:48px!important;height:48px!important;margin:-24px 0 0 -24px!important;border-color:rgba(186,215,247,0.8)!important}
 
+/* ══════════ BORDER GLOW CARDS ══════════ */
+.border-glow-card {
+  --edge-proximity: 0;
+  --cursor-angle: 45deg;
+  --edge-sensitivity: 30;
+  --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+  --border-radius: 16px;
+  --glow-padding: 40px;
+  --cone-spread: 25;
+  position: relative;
+  border-radius: var(--border-radius);
+  isolation: isolate;
+  transform: translate3d(0, 0, 0.01px);
+  border: 1px solid rgb(255 255 255 / 10%);
+  background: var(--card-bg, rgba(186,214,247,0.03));
+  overflow: visible;
+}
+.border-glow-card::before, .border-glow-card::after, .border-glow-card > .edge-light {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; transition: opacity 0.25s ease-out; z-index: -1;
+}
+.border-glow-card:not(:hover):not(.sweep-active)::before, .border-glow-card:not(:hover):not(.sweep-active)::after, .border-glow-card:not(:hover):not(.sweep-active) > .edge-light {
+  opacity: 0; transition: opacity 0.75s ease-in-out;
+}
+.border-glow-card::before {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card-bg, rgba(186,214,247,0.03)) 0 100%) padding-box,
+    linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+    var(--gradient-one, radial-gradient(at 80% 55%, hsla(268, 100%, 76%, 1) 0px, transparent 50%)) border-box,
+    var(--gradient-two, radial-gradient(at 69% 34%, hsla(349, 100%, 74%, 1) 0px, transparent 50%)) border-box,
+    var(--gradient-three, radial-gradient(at 8% 6%, hsla(136, 100%, 78%, 1) 0px, transparent 50%)) border-box,
+    var(--gradient-four, radial-gradient(at 41% 38%, hsla(192, 100%, 64%, 1) 0px, transparent 50%)) border-box,
+    var(--gradient-five, radial-gradient(at 86% 85%, hsla(186, 100%, 74%, 1) 0px, transparent 50%)) border-box,
+    var(--gradient-six, radial-gradient(at 82% 18%, hsla(52, 100%, 65%, 1) 0px, transparent 50%)) border-box,
+    var(--gradient-seven, radial-gradient(at 51% 4%, hsla(12, 100%, 72%, 1) 0px, transparent 50%)) border-box,
+    var(--gradient-base, linear-gradient(#c299ff 0 100%)) border-box;
+  opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+  mask-image: conic-gradient(from var(--cursor-angle) at center, black calc(var(--cone-spread) * 1%), transparent calc((var(--cone-spread) + 15) * 1%), transparent calc((100 - var(--cone-spread) - 15) * 1%), black calc((100 - var(--cone-spread)) * 1%));
+}
+.border-glow-card::after {
+  border: 1px solid transparent;
+  background:
+    var(--gradient-one, radial-gradient(at 80% 55%, hsla(268, 100%, 76%, 1) 0px, transparent 50%)) padding-box,
+    var(--gradient-two, radial-gradient(at 69% 34%, hsla(349, 100%, 74%, 1) 0px, transparent 50%)) padding-box,
+    var(--gradient-three, radial-gradient(at 8% 6%, hsla(136, 100%, 78%, 1) 0px, transparent 50%)) padding-box,
+    var(--gradient-four, radial-gradient(at 41% 38%, hsla(192, 100%, 64%, 1) 0px, transparent 50%)) padding-box,
+    var(--gradient-five, radial-gradient(at 86% 85%, hsla(186, 100%, 74%, 1) 0px, transparent 50%)) padding-box,
+    var(--gradient-six, radial-gradient(at 82% 18%, hsla(52, 100%, 65%, 1) 0px, transparent 50%)) padding-box,
+    var(--gradient-seven, radial-gradient(at 51% 4%, hsla(12, 100%, 72%, 1) 0px, transparent 50%)) padding-box,
+    var(--gradient-base, linear-gradient(#c299ff 0 100%)) padding-box;
+  mask-image: linear-gradient(to bottom, black, black), radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%), radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%), radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%), radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%), radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%), conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+  mask-composite: subtract, add, add, add, add, add;
+  opacity: calc(var(--fill-opacity, 0.5) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+  mix-blend-mode: soft-light;
+}
+.border-glow-card > .edge-light {
+  inset: calc(var(--glow-padding) * -1); pointer-events: none; z-index: 1;
+  mask-image: conic-gradient(from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+  mix-blend-mode: plus-lighter;
+}
+.border-glow-card > .edge-light::before {
+  content: ""; position: absolute; inset: var(--glow-padding); border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--glow-color, hsl(40deg 80% 80% / 100%)),
+    inset 0 0 1px 0 var(--glow-color-60, hsl(40deg 80% 80% / 60%)),
+    inset 0 0 3px 0 var(--glow-color-50, hsl(40deg 80% 80% / 50%)),
+    inset 0 0 6px 0 var(--glow-color-40, hsl(40deg 80% 80% / 40%)),
+    inset 0 0 15px 0 var(--glow-color-30, hsl(40deg 80% 80% / 30%)),
+    inset 0 0 25px 2px var(--glow-color-20, hsl(40deg 80% 80% / 20%)),
+    inset 0 0 50px 2px var(--glow-color-10, hsl(40deg 80% 80% / 10%)),
+    0 0 1px 0 var(--glow-color-60, hsl(40deg 80% 80% / 60%)),
+    0 0 3px 0 var(--glow-color-50, hsl(40deg 80% 80% / 50%)),
+    0 0 6px 0 var(--glow-color-40, hsl(40deg 80% 80% / 40%)),
+    0 0 15px 0 var(--glow-color-30, hsl(40deg 80% 80% / 30%)),
+    0 0 25px 2px var(--glow-color-20, hsl(40deg 80% 80% / 20%)),
+    0 0 50px 2px var(--glow-color-10, hsl(40deg 80% 80% / 10%));
+}
+.border-glow-inner { display: flex; flex-direction: column; position: relative; overflow: auto; z-index: 1; height: 100%; width: 100%; padding: 24px; }
+
 /* ══════════ NAV ══════════ */
 nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:70px;transition:background .4s,border-color .4s,backdrop-filter .4s;border-bottom:1px solid transparent}
 nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-color:var(--color-glass-edge)}
@@ -84,7 +164,7 @@ nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-bac
 /* ══════════ SKILLS ══════════ */
 #skills{position:relative;padding:120px 24px;z-index:1}
 .skills-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;max-width:1000px;margin:0 auto}
-.skill-card{flex:1 1 300px;background:rgba(186,214,247,0.03);border:1px solid var(--color-glass-edge);border-radius:16px;padding:24px;box-shadow:inset 0 1px 1px rgba(199,211,234,0.12), 0 24px 32px rgba(6,6,14,0.7);transition:transform .4s}
+.skill-card{--card-bg: rgba(186,214,247,0.03); flex:1 1 300px; border-radius:16px; box-shadow:inset 0 1px 1px rgba(199,211,234,0.12), 0 24px 32px rgba(6,6,14,0.7); transition:transform .4s}
 .skill-card:hover{transform:translateY(-4px)}
 .skill-head{display:flex;align-items:center;gap:16px;margin-bottom:20px}
 .skill-icon-wrap{width:56px;height:56px;border-radius:9999px;background:rgba(186,214,247,0.06);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--color-frost-glow);border:1px solid var(--color-glass-edge)}
@@ -95,17 +175,13 @@ nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-bac
 /* ══════════ PROJECTS (CARDSWAP) ══════════ */
 #projects{position:relative;padding:120px 24px;z-index:1}
 .card-swap-container {position: relative;width: 100%;height: 480px;perspective: 900px;overflow: visible;margin: 0 auto;max-width:800px}
-.card-swap-container .proj-card {
+.proj-card {
+  --card-bg: rgba(5,6,15,0.97);
   position: absolute;top: 50%;left: 50%;width: 100%;max-width: 500px;min-height: 380px;
-  background: rgba(5,6,15,0.97);
   border-radius: 16px;
-  padding: 24px;
   box-shadow: inset 0 1px 1px rgba(216, 236, 248, 0.2), inset 0 24px 48px rgba(168, 216, 245, 0.06), 0 16px 32px rgba(0, 0, 0, 0.5);
   transform-style: preserve-3d;will-change: transform;
-  border: 1px solid var(--color-glass-edge);
-  margin: 0 !important;
-  cursor: pointer;
-  display: flex; flex-direction: column;
+  margin: 0 !important; cursor: pointer; display: flex; flex-direction: column;
 }
 .proj-meta{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .proj-cat{font-size:12px;font-weight:500;padding:4px 8px;border-radius:6px;background:rgba(199,211,234,0.12);color:var(--color-frost-glow)}
@@ -119,7 +195,8 @@ nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-bac
 /* ══════════ CONTACT ══════════ */
 #contact{position:relative;padding:120px 24px 60px;z-index:1}
 .contact-grid{max-width:640px;margin:0 auto}
-.contact-card{background:rgba(186,214,247,0.03);border:1px solid var(--color-glass-edge);border-radius:16px;padding:24px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;box-shadow:inset 0 1px 1px rgba(199,211,234,0.12), 0 12px 24px rgba(6,6,14,0.4)}
+.contact-card{--card-bg: rgba(186,214,247,0.03); border-radius:16px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; box-shadow:inset 0 1px 1px rgba(199,211,234,0.12), 0 12px 24px rgba(6,6,14,0.4)}
+.contact-card .border-glow-inner { flex-direction: row; align-items: center; justify-content: space-between; }
 .contact-meta{font-family:var(--font-mono);font-size:12px;color:var(--color-moon-mist);text-transform:uppercase;margin-bottom:4px}
 .contact-val{font-size:16px;color:var(--color-ice-highlight)}
 .copy-btn{padding:8px 16px;border-radius:999px;background:var(--color-luminous-fill);border:1px solid var(--color-glass-edge);color:var(--color-frost-glow);font-size:12px;cursor:pointer;transition:all .3s}
@@ -202,24 +279,33 @@ nav.scrolled{background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);-webkit-bac
     <h2 class="sec-title">Let's Build Something Intelligent</h2>
   </div>
   <div class="contact-grid">
-    <div class="contact-card">
-      <div>
-        <div class="contact-meta">Primary Email</div>
-        <div class="contact-val">nkshtrkaushik@gmail.com</div>
+    <div class="contact-card border-glow-card">
+      <span class="edge-light"></span>
+      <div class="border-glow-inner">
+        <div>
+          <div class="contact-meta">Primary Email</div>
+          <div class="contact-val">nkshtrkaushik@gmail.com</div>
+        </div>
+        <button class="copy-btn" onclick="copyText('nkshtrkaushik@gmail.com', this)">Copy</button>
       </div>
-      <button class="copy-btn" onclick="copyText('nkshtrkaushik@gmail.com', this)">Copy</button>
     </div>
-    <div class="contact-card">
-      <div>
-        <div class="contact-meta">Alternative Email</div>
-        <div class="contact-val">nkshtrkaushik@outlook.in</div>
+    <div class="contact-card border-glow-card">
+      <span class="edge-light"></span>
+      <div class="border-glow-inner">
+        <div>
+          <div class="contact-meta">Alternative Email</div>
+          <div class="contact-val">nkshtrkaushik@outlook.in</div>
+        </div>
+        <button class="copy-btn" onclick="copyText('nkshtrkaushik@outlook.in', this)">Copy</button>
       </div>
-      <button class="copy-btn" onclick="copyText('nkshtrkaushik@outlook.in', this)">Copy</button>
     </div>
-    <div class="contact-card">
-      <div>
-        <div class="contact-meta">Phone</div>
-        <div class="contact-val">+91 81309 53769</div>
+    <div class="contact-card border-glow-card">
+      <span class="edge-light"></span>
+      <div class="border-glow-inner">
+        <div>
+          <div class="contact-meta">Phone</div>
+          <div class="contact-val">+91 81309 53769</div>
+        </div>
       </div>
     </div>
   </div>
@@ -255,12 +341,15 @@ const PROJECTS = [
 const sg = document.getElementById('skills-grid');
 SKILLS.forEach(s=>{
   sg.innerHTML += `
-  <div class="skill-card">
-    <div class="skill-head">
-      <div class="skill-icon-wrap">${s.icon}</div>
-      <div class="skill-cat">${s.cat}</div>
+  <div class="skill-card border-glow-card">
+    <span class="edge-light"></span>
+    <div class="border-glow-inner">
+      <div class="skill-head">
+        <div class="skill-icon-wrap">${s.icon}</div>
+        <div class="skill-cat">${s.cat}</div>
+      </div>
+      <div class="skill-tags">${s.skills.map(sk=>`<span class="stag">${sk}</span>`).join('')}</div>
     </div>
-    <div class="skill-tags">${s.skills.map(sk=>`<span class="stag">${sk}</span>`).join('')}</div>
   </div>`;
 });
 
@@ -269,14 +358,17 @@ const pg = document.getElementById('proj-grid');
 PROJECTS.forEach((p,i)=>{
   const live = p.live ? `<a href="${p.live}" target="_blank" rel="noopener" class="proj-link">Live Demo ↗</a>` : '';
   pg.innerHTML += `
-  <div class="proj-card" id="card-${i}">
-    <div class="proj-meta"><span class="proj-cat">${p.cat}</span></div>
-    <h3 class="proj-title">${p.title}</h3>
-    <p class="proj-desc">${p.desc}</p>
-    <div class="proj-tech">${p.tech.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
-    <div class="proj-foot">
-      <a href="https://github.com/NakshatraK19" target="_blank" rel="noopener" class="proj-link">View Code ↗</a>
-      ${live}
+  <div class="proj-card border-glow-card" id="card-${i}">
+    <span class="edge-light"></span>
+    <div class="border-glow-inner">
+      <div class="proj-meta"><span class="proj-cat">${p.cat}</span></div>
+      <h3 class="proj-title">${p.title}</h3>
+      <p class="proj-desc">${p.desc}</p>
+      <div class="proj-tech">${p.tech.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
+      <div class="proj-foot">
+        <a href="https://github.com/NakshatraK19" target="_blank" rel="noopener" class="proj-link">View Code ↗</a>
+        ${live}
+      </div>
     </div>
   </div>`;
 });
@@ -355,6 +447,133 @@ PROJECTS.forEach((p,i)=>{
   pg.addEventListener('mouseleave', () => { if(tlRef) tlRef.play(); interval = setInterval(() => swap(1), delay); });
 })();
 
+/* ══════ BORDER GLOW LOGIC ══════ */
+(function(){
+  function parseHSL(hslStr) {
+    const match = hslStr.match(/([\d.]+)\s*([\d.]+)%?\s*([\d.]+)%?/);
+    if (!match) return { h: 254, s: 89, l: 59 };
+    return { h: parseFloat(match[1]), s: parseFloat(match[2]), l: parseFloat(match[3]) };
+  }
+  function buildGlowVars(glowColor, intensity) {
+    const { h, s, l } = parseHSL(glowColor);
+    const base = `${h}deg ${s}% ${l}%`;
+    const opacities = [100, 60, 50, 40, 30, 20, 10];
+    const keys = ['', '-60', '-50', '-40', '-30', '-20', '-10'];
+    const vars = {};
+    for (let i = 0; i < opacities.length; i++) {
+      vars[`--glow-color${keys[i]}`] = `hsl(${base} / ${Math.min(opacities[i] * intensity, 100)}%)`;
+    }
+    return vars;
+  }
+  const GRADIENT_POSITIONS = ['80% 55%', '69% 34%', '8% 6%', '41% 38%', '86% 85%', '82% 18%', '51% 4%'];
+  const GRADIENT_KEYS = ['--gradient-one', '--gradient-two', '--gradient-three', '--gradient-four', '--gradient-five', '--gradient-six', '--gradient-seven'];
+  const COLOR_MAP = [0, 1, 2, 0, 1, 2, 1];
+
+  function buildGradientVars(colors) {
+    const vars = {};
+    for (let i = 0; i < 7; i++) {
+      const c = colors[Math.min(COLOR_MAP[i], colors.length - 1)];
+      vars[GRADIENT_KEYS[i]] = `radial-gradient(at ${GRADIENT_POSITIONS[i]}, ${c} 0px, transparent 50%)`;
+    }
+    vars['--gradient-base'] = `linear-gradient(${colors[0]} 0 100%)`;
+    return vars;
+  }
+
+  function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
+  function easeInCubic(x) { return x * x * x; }
+  function animateValue({ start = 0, end = 100, duration = 1000, delay = 0, ease = easeOutCubic, onUpdate, onEnd }) {
+    const t0 = performance.now() + delay;
+    function tick() {
+      const elapsed = performance.now() - t0;
+      const t = Math.max(0, Math.min(elapsed / duration, 1));
+      if (elapsed >= 0) onUpdate(start + (end - start) * ease(t));
+      if (t < 1) requestAnimationFrame(tick);
+      else if (onEnd) onEnd();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const getCenterOfElement = (el) => {
+    const rect = el.getBoundingClientRect();
+    return [rect.width / 2, rect.height / 2];
+  };
+
+  const getEdgeProximity = (el, x, y) => {
+    const [cx, cy] = getCenterOfElement(el);
+    const dx = x - cx;
+    const dy = y - cy;
+    let kx = Infinity, ky = Infinity;
+    if (dx !== 0) kx = cx / Math.abs(dx);
+    if (dy !== 0) ky = cy / Math.abs(dy);
+    return Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+  };
+
+  const getCursorAngle = (el, x, y) => {
+    const [cx, cy] = getCenterOfElement(el);
+    const dx = x - cx;
+    const dy = y - cy;
+    if (dx === 0 && dy === 0) return 0;
+    const radians = Math.atan2(dy, dx);
+    let degrees = radians * (180 / Math.PI) + 90;
+    if (degrees < 0) degrees += 360;
+    return degrees;
+  };
+
+  const glowConfig = {
+    edgeSensitivity: 30,
+    glowColor: '254 89 59', 
+    borderRadius: 16,
+    glowRadius: 40,
+    glowIntensity: 1.0,
+    coneSpread: 25,
+    colors: ['#663af3', '#d1e4fa', '#b6d9fc'],
+    fillOpacity: 0.5
+  };
+
+  const gVars = buildGlowVars(glowConfig.glowColor, glowConfig.glowIntensity);
+  const gradVars = buildGradientVars(glowConfig.colors);
+  const combinedVars = {
+    '--edge-sensitivity': glowConfig.edgeSensitivity,
+    '--border-radius': `${glowConfig.borderRadius}px`,
+    '--glow-padding': `${glowConfig.glowRadius}px`,
+    '--cone-spread': glowConfig.coneSpread,
+    '--fill-opacity': glowConfig.fillOpacity,
+    ...gVars,
+    ...gradVars
+  };
+
+  document.querySelectorAll('.border-glow-card').forEach(card => {
+    for (const [k, v] of Object.entries(combinedVars)) {
+      card.style.setProperty(k, v);
+    }
+    const angleStart = 110, angleEnd = 465;
+    card.classList.add('sweep-active');
+    card.style.setProperty('--cursor-angle', `${angleStart}deg`);
+
+    animateValue({ duration: 500, onUpdate: v => card.style.setProperty('--edge-proximity', v) });
+    animateValue({ ease: easeInCubic, duration: 1500, end: 50, onUpdate: v => {
+      card.style.setProperty('--cursor-angle', `${(angleEnd - angleStart) * (v / 100) + angleStart}deg`);
+    }});
+    animateValue({ ease: easeOutCubic, delay: 1500, duration: 2250, start: 50, end: 100, onUpdate: v => {
+      card.style.setProperty('--cursor-angle', `${(angleEnd - angleStart) * (v / 100) + angleStart}deg`);
+    }});
+    animateValue({ ease: easeInCubic, delay: 2500, duration: 1500, start: 100, end: 0,
+      onUpdate: v => card.style.setProperty('--edge-proximity', v),
+      onEnd: () => card.classList.remove('sweep-active'),
+    });
+
+    card.addEventListener('pointermove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const edge = getEdgeProximity(card, x, y);
+      const angle = getCursorAngle(card, x, y);
+      card.style.setProperty('--edge-proximity', `${(edge * 100).toFixed(3)}`);
+      card.style.setProperty('--cursor-angle', `${angle.toFixed(3)}deg`);
+    });
+  });
+})();
+
 /* ══════ CURSOR ══════ */
 (function(){
   if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
@@ -372,8 +591,8 @@ PROJECTS.forEach((p,i)=>{
     }
   });
   (function anim(){rx+=(rmx-rx)*.15;ry+=(rmy-ry)*.15;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(anim);})();
-  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button, .proj-card'))document.body.classList.add('cur-link');});
-  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button, .proj-card'))document.body.classList.remove('cur-link');});
+  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button, .proj-card, .skill-card, .contact-card'))document.body.classList.add('cur-link');});
+  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button, .proj-card, .skill-card, .contact-card'))document.body.classList.remove('cur-link');});
   document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0'});
   document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1'});
 })();
