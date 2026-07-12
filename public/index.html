@@ -300,28 +300,9 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
       <div class="border-glow-inner">
         <div>
           <div class="contact-meta">Primary Email</div>
-          <div class="contact-val">nkshtrkaushik@gmail.com</div>
-        </div>
-        <button class="copy-btn" onclick="copyText('nkshtrkaushik@gmail.com', this)">Copy</button>
-      </div>
-    </div>
-    <div class="contact-card border-glow-card">
-      <span class="edge-light"></span>
-      <div class="border-glow-inner">
-        <div>
-          <div class="contact-meta">Alternative Email</div>
           <div class="contact-val">nkshtrkaushik@outlook.in</div>
         </div>
         <button class="copy-btn" onclick="copyText('nkshtrkaushik@outlook.in', this)">Copy</button>
-      </div>
-    </div>
-    <div class="contact-card border-glow-card">
-      <span class="edge-light"></span>
-      <div class="border-glow-inner">
-        <div>
-          <div class="contact-meta">Phone</div>
-          <div class="contact-val">+91 81309 53769</div>
-        </div>
       </div>
     </div>
   </div>
@@ -347,10 +328,10 @@ const SKILLS = [
 ];
 
 const PROJECTS = [
-  {title:'AI Browser Automation',cat:'Automation',desc:'Intelligent agent using Claude Sonnet 4.6 to navigate, extract data, and interact via natural language.',tech:['Claude 4.6','Selenium','Python'],live:'https://browser-agentv2-production.up.railway.app'},
-  {title:'NL Database Query Agent',cat:'AI Infra',desc:'Converts natural language to optimized MongoDB operations using HF Transformers and MS Database Agent.',tech:['MongoDB','HF Transformers','Python'],live:'https://nl-db-agent-nk19.streamlit.app/'},
-  {title:'Disk Cleaning Software',cat:'Systems',desc:'Multi-pass secure data erasure, intelligent file categorization. SIH 2026 College Finalist.',tech:['Python','Cryptography','File Systems'],live:null},
-  {title:'Rain-Sensing Auto Wiper',cat:'Embedded',desc:'Arduino based automated wiper with rain sensor feedback. Real-time embedded systems demonstration.',tech:['Arduino UNO','C++','Servo','IoT'],live:null},
+  {title:'AI Browser Automation',cat:'Automation',desc:'Intelligent agent using Claude Sonnet 4.6 to navigate, extract data, and interact via natural language.',tech:['Claude 4.6','Selenium','Python'],live:'https://browser-agentv2-production.up.railway.app',github:true},
+  {title:'NL Database Query Agent',cat:'AI Infra',desc:'Converts natural language to optimized MongoDB operations using HF Transformers and MS Database Agent.',tech:['MongoDB','HF Transformers','Python'],live:'https://nl-db-agent-nk19.streamlit.app/',github:true},
+  {title:'Disk Cleaning Software',cat:'Systems',desc:'Multi-pass secure data erasure, intelligent file categorization. SIH 2026 College Finalist.',tech:['Python','Cryptography','File Systems'],live:null,github:false},
+  {title:'Rain-Sensing Auto Wiper',cat:'Embedded',desc:'Arduino based automated wiper with rain sensor feedback. Real-time embedded systems demonstration.',tech:['Arduino UNO','C++','Servo','IoT'],live:null,github:false},
 ];
 
 /* ══════ BUILD SKILLS ══════ */
@@ -373,6 +354,7 @@ SKILLS.forEach(s=>{
 const pg = document.getElementById('proj-grid');
 PROJECTS.forEach((p,i)=>{
   const live = p.live ? `<a href="${p.live}" target="_blank" rel="noopener" class="proj-link">Live Demo ↗</a>` : '';
+  const code = p.github ? `<a href="https://github.com/NakshatraK19" target="_blank" rel="noopener" class="proj-link">View Code ↗</a>` : '';
   pg.innerHTML += `
   <div class="proj-card border-glow-card" id="card-${i}">
     <span class="edge-light"></span>
@@ -382,7 +364,7 @@ PROJECTS.forEach((p,i)=>{
       <p class="proj-desc">${p.desc}</p>
       <div class="proj-tech">${p.tech.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
       <div class="proj-foot">
-        <a href="https://github.com/NakshatraK19" target="_blank" rel="noopener" class="proj-link">View Code ↗</a>
+        ${code}
         ${live}
       </div>
     </div>
