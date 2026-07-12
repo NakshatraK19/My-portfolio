@@ -405,7 +405,7 @@ PROJECTS.forEach((p,i)=>{
       },
       opacity: 0,
       onUpdate: function() {
-        vid.playbackRate = 1 - (this.progress * 0.8);
+        try { vid.playbackRate = Math.max(0.1, 1 - (this.progress() * 0.8)); } catch(e) {}
       }
     });
 
