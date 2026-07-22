@@ -187,18 +187,20 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
   width: 100%;
 }
 .proj-card-wrapper {
-  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 40px 0;
-  margin-bottom: -120px;
+  padding: 60px 0;
+  margin-bottom: -100px;
 }
 .proj-splash {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  clip-path: path("M 0 303.5 C 0 292.454 8.995 285.101 20 283.5 L 460 219.5 C 470.085 218.033 480 228.454 480 239.5 L 500 430 C 500 441.046 491.046 450 480 450 L 20 450 C 8.954 450 0 441.046 0 430 Z");
+  top: 50%; left: 50%;
+  width: 100%; max-width: 460px;
+  height: 100%; max-height: 440px;
+  transform: translate(-50%, -50%) rotate(-4deg);
+  border-radius: 32px;
   z-index: 0;
 }
 .proj-card {
@@ -450,21 +452,21 @@ PROJECTS.forEach((p,i)=>{
   wrappers.forEach((wrapper, i) => {
     const card = wrapper.querySelector('.proj-card');
     
-    // Initial state set in CSS style attribute (y: 300px).
-    // Alternating rotation based on index
-    const rotation = (i % 2 === 0) ? -10 : 10;
+    // Alternating rotation based on index, slightly softer angle
+    const rotation = (i % 2 === 0) ? -6 : 6;
     
     inView(wrapper, () => {
       animate(
         card, 
-        { y: [300, 50], rotate: [0, rotation] }, 
+        { y: [250, 0], rotate: [0, rotation] }, 
         { 
           type: "spring", 
-          bounce: 0.4, 
-          duration: 0.8 
+          stiffness: 40,
+          damping: 12,
+          mass: 1.2
         }
       );
-    }, { amount: 0.8 }); // Trigger when 80% in view
+    }, { amount: 0.15 }); // Trigger much earlier so user sees it rising
   });
 })();
 
