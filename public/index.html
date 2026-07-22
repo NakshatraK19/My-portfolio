@@ -186,8 +186,13 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
   padding-bottom: 100px;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 80px;
+}
+@media (max-width: 900px) {
+  .proj-list-container {
+    grid-template-columns: 1fr;
+  }
 }
 .proj-card-wrapper {
   display: flex;
