@@ -11,6 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
 <style>
 /* ══════════ AUTHKIT THEME ══════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -177,16 +178,37 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .skill-tags{display:flex;flex-wrap:wrap;gap:8px}
 .stag{font-size:12px;font-weight:500;padding:4px 8px;border-radius:6px;background:rgba(199,211,234,0.12);color:var(--color-frost-glow);box-shadow:inset 0 1px 1px rgba(255,255,255,0.05)}
 
-/* ══════════ PROJECTS (CARDSWAP) ══════════ */
+/* ══════════ PROJECTS (SCROLL TRIGGER) ══════════ */
 #projects{position:relative;padding:120px 24px;z-index:1}
-.card-swap-container {position: relative;width: 100%;height: 480px;perspective: 900px;overflow: visible;margin: 100px auto 0;max-width:800px}
+.proj-list-container {
+  margin: 100px auto 0;
+  max-width: 500px;
+  padding-bottom: 100px;
+  width: 100%;
+}
+.proj-card-wrapper {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 40px 0;
+  margin-bottom: -120px;
+}
+.proj-splash {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  clip-path: path("M 0 303.5 C 0 292.454 8.995 285.101 20 283.5 L 460 219.5 C 470.085 218.033 480 228.454 480 239.5 L 500 430 C 500 441.046 491.046 450 480 450 L 20 450 C 8.954 450 0 441.046 0 430 Z");
+  z-index: 0;
+}
 .proj-card {
   --card-bg: rgba(5,6,15,0.97);
-  position: absolute;top: 50%;left: 50%;width: 100%;max-width: 500px;min-height: 380px;
-  border-radius: 16px;
-  box-shadow: inset 0 1px 1px rgba(216, 236, 248, 0.2), inset 0 24px 48px rgba(168, 216, 245, 0.06), 0 16px 32px rgba(0, 0, 0, 0.5);
-  transform-style: preserve-3d;will-change: transform;
-  margin: 0 !important; cursor: pointer; display: flex; flex-direction: column;
+  position: relative; z-index: 2;
+  width: 100%; max-width: 440px; min-height: 420px;
+  border-radius: 20px;
+  box-shadow: inset 0 1px 1px rgba(216, 236, 248, 0.2), inset 0 24px 48px rgba(168, 216, 245, 0.06), 0 0 1px hsl(0deg 0% 0% / 0.075), 0 0 2px hsl(0deg 0% 0% / 0.075), 0 0 4px hsl(0deg 0% 0% / 0.075), 0 0 8px hsl(0deg 0% 0% / 0.075), 0 0 16px hsl(0deg 0% 0% / 0.075), 0 16px 32px rgba(0, 0, 0, 0.5);
+  transform-origin: 10% 60%;
+  display: flex; flex-direction: column;
 }
 .proj-meta{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .proj-cat{font-size:12px;font-weight:500;padding:4px 8px;border-radius:6px;background:rgba(199,211,234,0.12);color:var(--color-frost-glow)}
@@ -282,7 +304,7 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
     <h2 class="sec-title">Featured Projects</h2>
     <p class="sec-sub">Building intelligent systems at the intersection of AI research and production engineering.</p>
   </div>
-  <div class="card-swap-container" id="proj-grid"></div>
+  <div class="proj-list-container" id="proj-grid"></div>
 </section>
 
 <section id="contact">
@@ -328,10 +350,10 @@ const SKILLS = [
 ];
 
 const PROJECTS = [
-  {title:'AI Browser Automation',cat:'Automation',desc:'Intelligent agent using Claude Sonnet 4.6 to navigate, extract data, and interact via natural language.',tech:['Claude 4.6','Selenium','Python'],live:'https://browser-agentv2.vercel.app/',github:true},
-  {title:'NL Database Query Agent',cat:'AI Infra',desc:'Converts natural language to optimized MongoDB operations using HF Transformers and MS Database Agent.',tech:['MongoDB','HF Transformers','Python'],live:'https://nl-db-agent-nk19.streamlit.app/',github:true},
-  {title:'Disk Cleaning Software',cat:'Systems',desc:'Multi-pass secure data erasure, intelligent file categorization. SIH 2026 College Finalist.',tech:['Python','Cryptography','File Systems'],live:null,github:false},
-  {title:'Rain-Sensing Auto Wiper',cat:'Embedded',desc:'Arduino based automated wiper with rain sensor feedback. Real-time embedded systems demonstration.',tech:['Arduino UNO','C++','Servo','IoT'],live:null,github:false},
+  {title:'AI Browser Automation',cat:'Automation',desc:'Intelligent agent using Claude Sonnet 4.6 to navigate, extract data, and interact via natural language.',tech:['Claude 4.6','Selenium','Python'],live:'https://browser-agentv2.vercel.app/',github:true, hueA: 268, hueB: 192},
+  {title:'NL Database Query Agent',cat:'AI Infra',desc:'Converts natural language to optimized MongoDB operations using HF Transformers and MS Database Agent.',tech:['MongoDB','HF Transformers','Python'],live:'https://nl-db-agent-nk19.streamlit.app/',github:true, hueA: 349, hueB: 12},
+  {title:'Disk Cleaning Software',cat:'Systems',desc:'Multi-pass secure data erasure, intelligent file categorization. SIH 2026 College Finalist.',tech:['Python','Cryptography','File Systems'],live:null,github:false, hueA: 136, hueB: 186},
+  {title:'Rain-Sensing Auto Wiper',cat:'Embedded',desc:'Arduino based automated wiper with rain sensor feedback. Real-time embedded systems demonstration.',tech:['Arduino UNO','C++','Servo','IoT'],live:null,github:false, hueA: 41, hueB: 86},
 ];
 
 /* ══════ BUILD SKILLS ══════ */
@@ -350,25 +372,30 @@ SKILLS.forEach(s=>{
   </div>`;
 });
 
-/* ══════ BUILD PROJECTS CARDSWAP ══════ */
+/* ══════ BUILD PROJECTS SCROLL LIST ══════ */
 const pg = document.getElementById('proj-grid');
 PROJECTS.forEach((p,i)=>{
   const live = p.live ? `<a href="${p.live}" target="_blank" rel="noopener" class="proj-link">Live Demo ↗</a>` : '';
   const code = p.github ? `<a href="https://github.com/NakshatraK19" target="_blank" rel="noopener" class="proj-link">View Code ↗</a>` : '';
-  pg.innerHTML += `
-  <div class="proj-card border-glow-card" id="card-${i}">
-    <span class="edge-light"></span>
-    <div class="border-glow-inner">
-      <div class="proj-meta"><span class="proj-cat">${p.cat}</span></div>
-      <h3 class="proj-title">${p.title}</h3>
-      <p class="proj-desc">${p.desc}</p>
-      <div class="proj-tech">${p.tech.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
-      <div class="proj-foot">
-        ${code}
-        ${live}
+  const bg = \`linear-gradient(306deg, hsl(\${p.hueA}, 100%, 50%), hsl(\${p.hueB}, 100%, 50%))\`;
+  
+  pg.innerHTML += \`
+  <div class="proj-card-wrapper" id="card-wrap-\${i}">
+    <div class="proj-splash" style="background: \${bg}"></div>
+    <div class="proj-card border-glow-card" id="card-\${i}" style="transform: translateY(300px);">
+      <span class="edge-light"></span>
+      <div class="border-glow-inner">
+        <div class="proj-meta"><span class="proj-cat">\${p.cat}</span></div>
+        <h3 class="proj-title">\${p.title}</h3>
+        <p class="proj-desc">\${p.desc}</p>
+        <div class="proj-tech">\${p.tech.map(t=>\`<span class="stag">\${t}</span>\`).join('')}</div>
+        <div class="proj-foot">
+          \${code}
+          \${live}
+        </div>
       </div>
     </div>
-  </div>`;
+  </div>\`;
 });
 
 /* ══════ BACKGROUND TRANSITION LOGIC ══════ */
@@ -414,78 +441,31 @@ PROJECTS.forEach((p,i)=>{
   }
 })();
 
-/* ══════ CARDSWAP LOGIC ══════ */
+/* ══════ SCROLL PROJECT LOGIC ══════ */
 (function(){
-  const cardDistance = 60, verticalDistance = 70, delay = 5000, skewAmount = 0; 
-  const config = { ease: 'power2.inOut', durDrop: 1, durMove: 1, durReturn: 1, promoteOverlap: 0.5, returnDelay: 0.1 };
+  if (typeof Motion === 'undefined') return;
+  const { inView, animate } = Motion;
   
-  const els = Array.from(pg.querySelectorAll('.proj-card'));
-  let order = els.map((_,i)=>i);
-  let tlRef = null;
-  let interval = null;
-
-  const makeSlot = (i, distX, distY, total) => ({ x: i * distX, y: -i * distY, z: -i * distX * 1.5, zIndex: total - i });
-  
-  const placeNow = (el, slot, skew) => {
-    gsap.set(el, { x: slot.x, y: slot.y, z: slot.z, xPercent: -50, yPercent: -50, skewY: skew, transformOrigin: 'center center', zIndex: slot.zIndex, force3D: true });
-  };
-
-  els.forEach((el, i) => placeNow(el, makeSlot(i, cardDistance, verticalDistance, els.length), skewAmount));
-
-  const swap = (count = 1) => {
-    if (order.length < 2) return;
-    if (tlRef && tlRef.isActive()) return; 
-
-    const movingToBack = order.slice(0, count);
-    const rest = order.slice(count);
+  const wrappers = document.querySelectorAll('.proj-card-wrapper');
+  wrappers.forEach((wrapper, i) => {
+    const card = wrapper.querySelector('.proj-card');
     
-    const tl = gsap.timeline();
-    tlRef = tl;
-
-    movingToBack.forEach((idx, i) => {
-        const elFront = els[idx];
-        tl.to(elFront, { y: '+=300', opacity: 0, duration: config.durDrop, ease: config.ease }, i * 0.1);
-    });
-
-    tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+    // Initial state set in CSS style attribute (y: 300px).
+    // Alternating rotation based on index
+    const rotation = (i % 2 === 0) ? -10 : 10;
     
-    rest.forEach((idx, i) => {
-      const el = els[idx];
-      const slot = makeSlot(i, cardDistance, verticalDistance, els.length);
-      tl.set(el, { zIndex: slot.zIndex }, 'promote');
-      tl.to(el, { x: slot.x, y: slot.y, z: slot.z, duration: config.durMove, ease: config.ease }, `promote+=${i * 0.1}`);
-    });
-
-    const backLabel = `promote+=${config.durMove * config.returnDelay}`;
-    tl.addLabel('return', backLabel);
-    
-    movingToBack.forEach((idx, i) => {
-      const elFront = els[idx];
-      const backSlotIndex = rest.length + i;
-      const backSlot = makeSlot(backSlotIndex, cardDistance, verticalDistance, els.length);
-      tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex, x: backSlot.x, y: backSlot.y + 100, z: backSlot.z }), undefined, 'return');
-      tl.to(elFront, { y: backSlot.y, opacity: 1, duration: config.durReturn, ease: config.ease }, `return+=${i * 0.1}`);
-    });
-    
-    tl.call(() => { order = [...rest, ...movingToBack]; });
-  };
-
-  els.forEach((el, elIndex) => {
-    el.addEventListener('click', (e) => {
-      if (e.target.closest('a') || e.target.closest('button')) return;
-      const pos = order.indexOf(elIndex);
-      if (pos > 0) {
-        clearInterval(interval);
-        swap(pos);
-        interval = setInterval(() => swap(1), delay);
-      }
-    });
+    inView(wrapper, () => {
+      animate(
+        card, 
+        { y: [300, 50], rotate: [0, rotation] }, 
+        { 
+          type: "spring", 
+          bounce: 0.4, 
+          duration: 0.8 
+        }
+      );
+    }, { amount: 0.8 }); // Trigger when 80% in view
   });
-
-  interval = setInterval(() => swap(1), delay);
-
-  pg.addEventListener('mouseenter', () => { if(tlRef) tlRef.pause(); clearInterval(interval); });
-  pg.addEventListener('mouseleave', () => { if(tlRef) tlRef.play(); interval = setInterval(() => swap(1), delay); });
 })();
 
 /* ══════ BORDER GLOW LOGIC ══════ */
