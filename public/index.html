@@ -377,25 +377,25 @@ const pg = document.getElementById('proj-grid');
 PROJECTS.forEach((p,i)=>{
   const live = p.live ? `<a href="${p.live}" target="_blank" rel="noopener" class="proj-link">Live Demo ↗</a>` : '';
   const code = p.github ? `<a href="https://github.com/NakshatraK19" target="_blank" rel="noopener" class="proj-link">View Code ↗</a>` : '';
-  const bg = \`linear-gradient(306deg, hsl(\${p.hueA}, 100%, 50%), hsl(\${p.hueB}, 100%, 50%))\`;
+  const bg = `linear-gradient(306deg, hsl(${p.hueA}, 100%, 50%), hsl(${p.hueB}, 100%, 50%))`;
   
-  pg.innerHTML += \`
-  <div class="proj-card-wrapper" id="card-wrap-\${i}">
-    <div class="proj-splash" style="background: \${bg}"></div>
-    <div class="proj-card border-glow-card" id="card-\${i}" style="transform: translateY(300px);">
+  pg.innerHTML += `
+  <div class="proj-card-wrapper" id="card-wrap-${i}">
+    <div class="proj-splash" style="background: ${bg}"></div>
+    <div class="proj-card border-glow-card" id="card-${i}" style="transform: translateY(300px);">
       <span class="edge-light"></span>
       <div class="border-glow-inner">
-        <div class="proj-meta"><span class="proj-cat">\${p.cat}</span></div>
-        <h3 class="proj-title">\${p.title}</h3>
-        <p class="proj-desc">\${p.desc}</p>
-        <div class="proj-tech">\${p.tech.map(t=>\`<span class="stag">\${t}</span>\`).join('')}</div>
+        <div class="proj-meta"><span class="proj-cat">${p.cat}</span></div>
+        <h3 class="proj-title">${p.title}</h3>
+        <p class="proj-desc">${p.desc}</p>
+        <div class="proj-tech">${p.tech.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
         <div class="proj-foot">
-          \${code}
-          \${live}
+          ${code}
+          ${live}
         </div>
       </div>
     </div>
-  </div>\`;
+  </div>`;
 });
 
 /* ══════ BACKGROUND TRANSITION LOGIC ══════ */
