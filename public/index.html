@@ -167,11 +167,12 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .hero-inner .sec-eyebrow{color:#111827;font-weight:600}
 .hero-inner .sec-eyebrow-line{background:linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent)}
 .hero-wordmark{font-family:var(--font-display);font-weight:700;font-size:clamp(3.5rem, 10vw, 8rem);line-height:1.1;color:#05060f;margin-bottom:24px;letter-spacing:-0.02em}
-/* Split text containers */
+/* Split text containers — start invisible, JS reveals them */
 .hero-line{overflow:hidden;display:block}
-.hero-line-inner{display:inline-block;will-change:transform}
-.hero-sub{font-size:18px;color:#1f2937;max-width:640px;margin:0 auto 48px;line-height:1.5;font-weight:500;will-change:transform,opacity,filter}
+.hero-line-inner{display:inline-block;will-change:transform;transform:translateY(110%)}
+.hero-sub{font-size:18px;color:#1f2937;max-width:640px;margin:0 auto 48px;line-height:1.5;font-weight:500;will-change:transform,opacity,filter;opacity:0}
 .hero-actions{display:flex;justify-content:center;gap:16px}
+.hero-actions>*{opacity:0;transform:translateY(18px) scale(0.92)}
 .btn-primary{padding:12px 24px;border-radius:6px;background:var(--color-void-violet);color:var(--color-pure-white);font-weight:500;font-size:16px;transition:background .3s,box-shadow .3s;display:inline-block}
 .btn-primary:hover{background:#562bd9;box-shadow:0 0 20px rgba(102,58,243,0.4)}
 .btn-ghost{padding:12px 24px;border-radius:999px;background:rgba(255,255,255,0.1);border:1px solid rgba(0,0,0,0.1);color:#05060f;font-size:16px;font-weight:600;transition:background .3s;backdrop-filter:blur(10px);display:inline-block}
@@ -241,7 +242,9 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
   #page-loader{display:none!important}
-  .hero-line-inner,.hero-sub,.hero-actions>*,.sec-eyebrow-wrap{opacity:1!important;transform:none!important;filter:none!important}
+  .hero-line-inner{transform:none!important}
+  .hero-sub,.hero-actions>*{opacity:1!important}
+  .hero-actions>*{transform:none!important}
 }
 </style>
 </head>
@@ -384,14 +387,7 @@ if (typeof Lenis !== 'undefined') {
 
   function startHeroEntrance() {
     if (prefersReduced) return;
-
-    // Set initial states — text lines start below overflow hidden
-    gsap.set('.hero-line-inner', { yPercent: 110 });
-    gsap.set('.hero-sub', { opacity: 0, y: 30, filter: 'blur(6px)' });
-    gsap.set('.hero-actions > *', { opacity: 0, y: 18, scale: 0.92 });
-    gsap.set('.sec-eyebrow-wrap', { opacity: 0, y: 10 });
-
-    var tl = gsap.timeline({ delay: 0.1 });
+    var tl = gsap.timeline({ delay: 0.05 });
     tl.to('.hero-line-inner', {
         yPercent: 0,
         duration: 1.1,
@@ -414,7 +410,6 @@ if (typeof Lenis !== 'undefined') {
         ease: 'power2.out'
       }, '-=0.9');
 
-    // Show scroll indicator after entrance settles
     setTimeout(function() {
       var hint = document.getElementById('scroll-hint');
       if (hint) hint.classList.add('show');
@@ -422,6 +417,13 @@ if (typeof Lenis !== 'undefined') {
   }
 
   function hideLoader() {
+    if (!prefersReduced) {
+      // Lock initial states BEFORE loader fades — no flash of content
+      gsap.set('.hero-line-inner', { yPercent: 110 });
+      gsap.set('.hero-sub', { opacity: 0, y: 30, filter: 'blur(6px)' });
+      gsap.set('.hero-actions > *', { opacity: 0, y: 18, scale: 0.92 });
+      gsap.set('.sec-eyebrow-wrap', { opacity: 0, y: 10 });
+    }
     if (loader) {
       gsap.to(loader, {
         opacity: 0,
