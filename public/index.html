@@ -41,12 +41,12 @@ body{background:var(--color-midnight-canvas);color:var(--color-frost-glow);font-
 a,button{cursor:none;border:none;background:none;font:inherit;text-decoration:none;color:inherit}
 @media(hover:none),(pointer:coarse){body,a,button{cursor:auto}}
 
-/* ══════════ PAGE LOADER (pure CSS — runs before first paint) ══════════ */
+/* ══════════ PAGE LOADER ══════════ */
 #page-loader{
   position:fixed;inset:0;z-index:999999;
   background:#05060f;
   display:flex;align-items:center;justify-content:center;
-  animation:loaderExit 0.6s ease 2s forwards;
+  animation:loaderExit 0.5s ease 1s forwards;
   pointer-events:all;
 }
 .loader-ring{
@@ -179,15 +179,15 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .hero-inner .sec-eyebrow{color:#111827;font-weight:600}
 .hero-inner .sec-eyebrow-line{background:linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent)}
 .hero-wordmark{font-family:var(--font-display);font-weight:700;font-size:clamp(3.5rem, 10vw, 8rem);line-height:1.1;color:#05060f;margin-bottom:24px;letter-spacing:-0.02em}
-/* Split text containers — CSS animation entrance, no JS dependency */
+/* Split text containers — delays start AFTER loader is gone (1.5s) */
 .hero-line{overflow:hidden;display:block}
 .hero-line-inner{
   display:inline-block;
   will-change:transform;
-  animation:heroLineUp 1s cubic-bezier(0.22,1,0.36,1) 1.1s backwards;
+  animation:heroLineUp 1s cubic-bezier(0.22,1,0.36,1) 1.6s backwards;
 }
 .hero-line:nth-child(2) .hero-line-inner{
-  animation-delay:1.25s;
+  animation-delay:1.75s;
 }
 @keyframes heroLineUp{
   from{transform:translateY(110%);opacity:0}
@@ -195,14 +195,14 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 }
 .hero-sub{
   font-size:18px;color:#1f2937;max-width:640px;margin:0 auto 48px;line-height:1.5;font-weight:500;
-  animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 1.5s backwards;
+  animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 2.05s backwards;
 }
 .hero-actions{display:flex;justify-content:center;gap:16px}
 .hero-actions>*:nth-child(1){
-  animation:heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 1.75s backwards;
+  animation:heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 2.3s backwards;
 }
 .hero-actions>*:nth-child(2){
-  animation:heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 1.9s backwards;
+  animation:heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 2.45s backwards;
 }
 @keyframes heroFadeUp{
   from{opacity:0;transform:translateY(20px) scale(0.95)}
