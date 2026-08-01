@@ -220,8 +220,34 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .scroll-hint-line{width:1px;height:36px;background:linear-gradient(to bottom, var(--color-fog-veil), transparent);animation:scrollBeat 1.8s ease-in-out infinite}
 @keyframes scrollBeat{0%,100%{transform:scaleY(0.6);opacity:0.4}50%{transform:scaleY(1);opacity:1}}
 
+/* ══════════ EXPERIENCE ══════════ */
+#experience { position: relative; padding: 120px 24px; z-index: 1; }
+.exp-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+.exp-card {
+  background: rgba(186, 214, 247, 0.02);
+  border: 1px solid rgba(186, 214, 247, 0.08);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 12px 32px rgba(6, 6, 14, 0.4), inset 0 1px 0 rgba(199, 211, 234, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease;
+  will-change: transform;
+}
+.exp-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(102, 58, 243, 0.3);
+}
+.exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+.exp-role { font-size: 24px; font-weight: 600; color: var(--color-ice-highlight); line-height: 1.2; margin-bottom: 8px; }
+.exp-company { font-size: 18px; color: var(--color-frost-glow); font-weight: 500; }
+.exp-date { font-family: var(--font-mono); font-size: 14px; color: var(--color-fog-veil); background: rgba(199, 211, 234, 0.08); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(199, 211, 234, 0.08); }
+.exp-bullets { list-style: none; padding: 0; margin: 0; color: var(--color-fog-veil); font-size: 16px; line-height: 1.6; }
+.exp-bullets li { position: relative; padding-left: 24px; margin-bottom: 12px; }
+.exp-bullets li::before { content: '▹'; position: absolute; left: 0; color: rgba(102, 58, 243, 0.8); font-size: 18px; line-height: 1.6; }
+@media (max-width: 600px) { .exp-card { padding: 24px; } }
+
 /* ══════════ SKILLS ══════════ */
-#skills { position: relative; padding: 120px 24px; z-index: 1; }
 
 .skills-grid {
   display: flex;
@@ -385,6 +411,19 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
   </div>
 </section>
 
+<section id="experience">
+  <div class="sec-header">
+    <div class="sec-eyebrow-wrap">
+      <div class="sec-eyebrow-line"></div>
+      <div class="sec-eyebrow">Career</div>
+      <div class="sec-eyebrow-line"></div>
+    </div>
+    <h2 class="sec-title">Work Experience</h2>
+    <p class="sec-sub">Building scalable platforms and intelligent systems.</p>
+  </div>
+  <div class="exp-container" id="exp-container"></div>
+</section>
+
 <section id="skills">
   <div class="sec-header">
     <div class="sec-eyebrow-wrap">
@@ -489,7 +528,43 @@ var PROJECTS = [
   {title:'Speech to Text Model',cat:'AI Model',desc:'Advanced speech recognition system powered by Gemini 3.1 Pro and OpenVoice, with full telemetry and tracing.',tech:['VSCode','Python','Gemini 3.1 Pro','OpenVoice','Langfuse','OpenTelemetry'],live:null,github:true,hueA:195,hueB:280},
   {title:'Disk Cleaning Software',cat:'Systems',desc:'Multi-pass secure data erasure, intelligent file categorization. SIH 2026 College Finalist.',tech:['Python','Cryptography','File Systems'],live:null,github:false,hueA:136,hueB:186},
   {title:'Rain-Sensing Auto Wiper',cat:'Embedded',desc:'Arduino based automated wiper with rain sensor feedback. Real-time embedded systems demonstration.',tech:['Arduino UNO','C++','Servo','IoT'],live:null,github:false,hueA:41,hueB:86},
+  {title:'Automated Email Outreach Pipeline',cat:'Workflow Automation',desc:'Personalized recruiter outreach workflows integrating n8n, Google Sheets, Apollo.io, and Gemini LLM for context-aware email copy.',tech:['n8n','Google Sheets','Apollo.io','REST APIs','Gemini LLM'],live:null,github:true,hueA:10,hueB:50},
+  {title:'ESP32 Energy Monitor & Predictor',cat:'IoT & ML',desc:'IoT energy tracking system with ESP32 sensors, Python desktop client, and Extra Trees Regressor for forecasting.',tech:['ESP32','Python','Tkinter','scikit-learn','pandas'],live:null,github:true,hueA:210,hueB:250}
 ];
+
+/* ══════ BUILD EXPERIENCE ══════ */
+var EXPERIENCE = [
+  {
+    role: 'Founder & Lead Engineer',
+    company: 'AssignIt AI',
+    date: 'May 2026 – Present',
+    bullets: [
+      'Architecting a multi-tenant B2B SaaS timetabling platform from the ground up using Python, React, and PostgreSQL.',
+      'Designing complex relational database schemas and highly concurrent REST APIs to automate academic scheduling.',
+      'Integrating Claude AI to dynamically resolve resource conflicts and enforce complex constraint-based scheduling rules.'
+    ]
+  }
+];
+
+var expContainer = document.getElementById('exp-container');
+if (expContainer) {
+  EXPERIENCE.forEach(function(e) {
+    var card = document.createElement('div');
+    card.className = 'exp-card';
+    card.innerHTML = 
+      '<div class="exp-header">' +
+        '<div>' +
+          '<div class="exp-role">' + e.role + '</div>' +
+          '<div class="exp-company">' + e.company + '</div>' +
+        '</div>' +
+        '<div class="exp-date">' + e.date + '</div>' +
+      '</div>' +
+      '<ul class="exp-bullets">' +
+        e.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') +
+      '</ul>';
+    expContainer.appendChild(card);
+  });
+}
 
 /* ══════ BUILD SKILLS ══════ */
 var sg = document.getElementById('skills-grid');
@@ -596,6 +671,15 @@ PROJECTS.forEach(function(p, i) {
     if (eyebrow) tl.from(eyebrow, { opacity: 0, y: 20, duration: 0.7, ease: 'power3.out' });
     if (title)   tl.from(title,   { opacity: 0, y: 36, duration: 0.9, ease: 'power4.out' }, '-=0.4');
     if (sub)     tl.from(sub,     { opacity: 0, y: 22, duration: 0.75, ease: 'power3.out' }, '-=0.5');
+  });
+
+  // Experience cards
+  ScrollTrigger.batch('.exp-card', {
+    onEnter: function(batch) {
+      gsap.from(batch, { opacity: 0, y: 48, stagger: 0.1, duration: 0.85, ease: 'power3.out', clearProps: 'all' });
+    },
+    start: 'top 88%',
+    once: true
   });
 
   // Skill cards — staggered wave
