@@ -177,17 +177,7 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .hero-vid{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;pointer-events:none;mask-image:linear-gradient(to bottom, black 70%, transparent 100%);-webkit-mask-image:linear-gradient(to bottom, black 70%, transparent 100%);will-change:opacity}
 .hero-inner{max-width:1200px;margin:0 auto;width:100%;text-align:center;position:relative;z-index:2;will-change:transform}
 .hero-inner .sec-eyebrow{color:#111827;font-weight:600}
-.hero-inner .sec-eyebrow-line{background:linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent)}
 .hero-wordmark{font-family:var(--font-display);font-weight:700;font-size:clamp(3.5rem, 10vw, 8rem);line-height:1.1;color:#05060f;margin-bottom:24px;letter-spacing:-0.02em}
-
-.hero-dp {
-  width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
-  margin: 0 auto 24px; display: block;
-  border: 4px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 12px 32px rgba(6, 6, 14, 0.2);
-  will-change: transform, opacity;
-  animation: heroLineUp 1s cubic-bezier(0.22,1,0.36,1) 1.5s backwards;
-}
 
 /* Split text containers — delays start AFTER loader is gone (1.5s) */
 .hero-line{overflow:hidden;display:block}
@@ -404,7 +394,6 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 <section id="about">
   <video id="hero-vid" class="hero-vid" autoplay loop muted playsinline src="16-9.mp4"></video>
   <div class="hero-inner">
-    <img src="images/my-image.jpg" alt="Nakshatra Kaushik" class="hero-dp">
     <div class="sec-eyebrow-wrap">
       <div class="sec-eyebrow-line"></div>
       <div class="sec-eyebrow">GEN-AI &amp; AIoT ENGINEER</div>
@@ -534,12 +523,12 @@ var SKILLS = [
 ];
 
 var PROJECTS = [
-  {title:'AI Browser Automation',cat:'Automation',desc:'Intelligent agent using Claude Sonnet 4.6 to navigate, extract data, and interact via natural language.',tech:['Claude 4.6','Selenium','Python'],live:'https://browser-agentv2.vercel.app/',github:true,hueA:268,hueB:192,img:'images/browser-agent.jpg'},
-  {title:'NL Database Query Agent',cat:'AI Infra',desc:'Converts natural language to optimized MongoDB operations using HF Transformers and MS Database Agent.',tech:['MongoDB','HF Transformers','Python','Docker Desktop','JavaScript','React','Gemini 3.1 Pro'],live:'https://nl-db-agent-nk19.streamlit.app/',github:true,hueA:349,hueB:12,img:'images/nl-db.jpg'},
+  {title:'AI Browser Automation',cat:'Automation',desc:'Intelligent agent using Claude Sonnet 4.6 to navigate, extract data, and interact via natural language.',tech:['Claude 4.6','Selenium','Python'],live:'https://browser-agentv2.vercel.app/',github:true,hueA:268,hueB:192},
+  {title:'NL Database Query Agent',cat:'AI Infra',desc:'Converts natural language to optimized MongoDB operations using HF Transformers and MS Database Agent.',tech:['MongoDB','HF Transformers','Python','Docker Desktop','JavaScript','React','Gemini 3.1 Pro'],live:'https://nl-db-agent-nk19.streamlit.app/',github:true,hueA:349,hueB:12},
   {title:'Speech to Text Model',cat:'AI Model',desc:'Advanced speech recognition system powered by Gemini 3.1 Pro and OpenVoice, with full telemetry and tracing.',tech:['VSCode','Python','Gemini 3.1 Pro','OpenVoice','Langfuse','OpenTelemetry'],live:null,github:true,hueA:195,hueB:280},
   {title:'Disk Cleaning Software',cat:'Systems',desc:'Multi-pass secure data erasure, intelligent file categorization. SIH 2026 College Finalist.',tech:['Python','Cryptography','File Systems'],live:null,github:false,hueA:136,hueB:186},
   {title:'Rain-Sensing Auto Wiper',cat:'Embedded',desc:'Arduino based automated wiper with rain sensor feedback. Real-time embedded systems demonstration.',tech:['Arduino UNO','C++','Servo','IoT'],live:null,github:false,hueA:41,hueB:86},
-  {title:'Automated Email Outreach Pipeline',cat:'Workflow Automation',desc:'Personalized recruiter outreach workflows integrating n8n, Google Sheets, Apollo.io, and Gemini LLM for context-aware email copy.',tech:['n8n','Google Sheets','Apollo.io','REST APIs','Gemini LLM'],live:null,github:false,hueA:10,hueB:50,img:'images/email-outreach.jpg'},
+  {title:'Automated Email Outreach Pipeline',cat:'Workflow Automation',desc:'Personalized recruiter outreach workflows integrating n8n, Google Sheets, Apollo.io, and Gemini LLM for context-aware email copy.',tech:['n8n','Google Sheets','Apollo.io','REST APIs','Gemini LLM'],live:null,github:false,hueA:10,hueB:50},
   {title:'ESP32 Energy Monitor & Predictor',cat:'IoT & ML',desc:'IoT energy tracking system with ESP32 sensors, Python desktop client, and Extra Trees Regressor for forecasting.',tech:['ESP32','Python','Tkinter','scikit-learn','pandas'],live:null,github:false,hueA:210,hueB:250}
 ];
 
@@ -598,9 +587,8 @@ var pg = document.getElementById('proj-grid');
 PROJECTS.forEach(function(p, i) {
   var live = p.live ? '<a href="' + p.live + '" target="_blank" rel="noopener" class="proj-link">Live Demo &#8599;</a>' : '';
   var code = p.github ? '<a href="https://github.com/NakshatraK19" target="_blank" rel="noopener" class="proj-link">View Code &#8599;</a>' : '';
-  var bg = p.img ? 'url(' + p.img + ') center/cover no-repeat' : 'linear-gradient(306deg, hsl(' + p.hueA + ', 100%, 50%), hsl(' + p.hueB + ', 100%, 50%))';
-  var opacity = p.img ? '0.4' : '1';
-  pg.innerHTML += '<div class="proj-card-wrapper" id="card-wrap-' + i + '"><div class="proj-splash" style="background:' + bg + '; opacity:' + opacity + '"></div><div class="proj-card border-glow-card" id="card-' + i + '" style="opacity:0;transform:translateY(250px);"><span class="edge-light"></span><div class="border-glow-inner"><div class="proj-meta"><span class="proj-cat">' + p.cat + '</span></div><h3 class="proj-title">' + p.title + '</h3><p class="proj-desc">' + p.desc + '</p><div class="proj-tech">' + p.tech.map(function(t){return '<span class="stag">' + t + '</span>';}).join('') + '</div><div class="proj-foot">' + code + live + '</div></div></div></div>';
+  var bg = 'linear-gradient(306deg, hsl(' + p.hueA + ', 100%, 50%), hsl(' + p.hueB + ', 100%, 50%))';
+  pg.innerHTML += '<div class="proj-card-wrapper" id="card-wrap-' + i + '"><div class="proj-splash" style="background:' + bg + '"></div><div class="proj-card border-glow-card" id="card-' + i + '" style="opacity:0;transform:translateY(250px);"><span class="edge-light"></span><div class="border-glow-inner"><div class="proj-meta"><span class="proj-cat">' + p.cat + '</span></div><h3 class="proj-title">' + p.title + '</h3><p class="proj-desc">' + p.desc + '</p><div class="proj-tech">' + p.tech.map(function(t){return '<span class="stag">' + t + '</span>';}).join('') + '</div><div class="proj-foot">' + code + live + '</div></div></div></div>';
 });
 
 /* ══════════════════════════════════════════════
