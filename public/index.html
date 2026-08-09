@@ -182,7 +182,7 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .hero-vid{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;pointer-events:none;mask-image:linear-gradient(to bottom, black 70%, transparent 100%);-webkit-mask-image:linear-gradient(to bottom, black 70%, transparent 100%);will-change:opacity}
 .hero-inner{max-width:1200px;margin:0 auto;width:100%;text-align:center;position:relative;z-index:2;will-change:transform}
 .hero-inner .sec-eyebrow{color:#111827;font-weight:600}
-.hero-wordmark{font-family:var(--font-display);font-weight:700;font-size:clamp(3.5rem, 10vw, 8rem);line-height:1.1;color:#05060f;margin-bottom:24px;letter-spacing:-0.02em}
+.hero-wordmark{font-family:var(--font-display);font-weight:700;font-size:clamp(2.5rem, 10vw, 8rem);line-height:1.1;color:#05060f;margin-bottom:24px;letter-spacing:-0.02em}
 
 /* Split text containers — delays start AFTER loader is gone (1.5s) */
 .hero-line{overflow:hidden;display:block}
@@ -202,13 +202,13 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
   font-size:18px;color:#1f2937;max-width:640px;margin:0 auto 48px;line-height:1.5;font-weight:500;
   animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 2.05s backwards;
 }
-.hero-actions{display:flex;justify-content:center;gap:16px}
-.hero-actions>*:nth-child(1){
-  animation:heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 2.3s backwards;
+.hero-actions{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.hero-actions>*{
+  animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 2.1s backwards;
 }
-.hero-actions>*:nth-child(2){
-  animation:heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 2.45s backwards;
-}
+.hero-actions>*:nth-child(2){ animation-delay:2.15s; }
+.hero-actions>*:nth-child(3){ animation-delay:2.2s; }
+.hero-actions>*:nth-child(4){ animation-delay:2.25s; }
 @keyframes heroFadeUp{
   from{opacity:0;transform:translateY(20px) scale(0.95)}
   to{opacity:1;transform:translateY(0) scale(1)}
@@ -357,6 +357,16 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
   #page-loader{animation:none!important;opacity:0!important;display:none!important}
   .hero-line-inner{animation:none!important;transform:none!important;opacity:1!important}
   .hero-sub,.hero-actions>*{animation:none!important;opacity:1!important;transform:none!important}
+}
+
+@media(max-width: 768px) {
+  nav { padding: 0 1rem; }
+  #about, #experience, #projects, #skills, #contact { padding: 100px 16px 40px; }
+  .exp-card .border-glow-inner { padding: 20px; }
+  .skill-card .border-glow-inner { padding: 20px; }
+  .contact-card .border-glow-inner { flex-direction: column; text-align: center; gap: 16px; padding: 24px; }
+  .sec-title { font-size: 28px; }
+  .sec-eyebrow-wrap { flex-wrap: wrap; text-align: center; }
 }
 </style>
 </head>
