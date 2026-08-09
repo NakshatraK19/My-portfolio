@@ -231,16 +231,14 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 #experience { position: relative; padding: 120px 24px; z-index: 1; }
 .exp-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
 .exp-card {
-  background: rgba(186, 214, 247, 0.02);
-  border: 1px solid rgba(186, 214, 247, 0.08);
-  border-radius: 20px;
-  padding: 40px;
+  --card-bg: rgba(186, 214, 247, 0.02);
+  --border-radius: 20px;
   box-shadow: 0 12px 32px rgba(6, 6, 14, 0.4), inset 0 1px 0 rgba(199, 211, 234, 0.05);
   position: relative;
-  overflow: hidden;
   transition: transform 0.4s ease, border-color 0.4s ease;
   will-change: transform;
 }
+.exp-card .border-glow-inner { padding: 40px; }
 .exp-card:hover {
   transform: translateY(-4px);
   border-color: rgba(102, 58, 243, 0.3);
@@ -252,7 +250,7 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .exp-bullets { list-style: none; padding: 0; margin: 0; color: var(--color-fog-veil); font-size: 16px; line-height: 1.6; }
 .exp-bullets li { position: relative; padding-left: 24px; margin-bottom: 12px; }
 .exp-bullets li::before { content: '▹'; position: absolute; left: 0; color: rgba(102, 58, 243, 0.8); font-size: 18px; line-height: 1.6; }
-@media (max-width: 600px) { .exp-card { padding: 24px; } }
+@media (max-width: 600px) { .exp-card .border-glow-inner { padding: 24px; } }
 
 /* ══════════ SKILLS ══════════ */
 
@@ -266,12 +264,10 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 }
 
 .skill-card {
+  --card-bg: rgba(186, 214, 247, 0.035);
+  --border-radius: 16px;
   flex: 0 0 calc(33.333% - 14px);
   min-width: 270px;
-  border-radius: 16px;
-  background: rgba(186, 214, 247, 0.035);
-  border: 1px solid rgba(186, 214, 247, 0.1);
-  padding: 28px;
   box-shadow: 0 8px 32px rgba(6, 6, 14, 0.6), inset 0 1px 0 rgba(199, 211, 234, 0.08);
   transform: scale(1);
   transition:
@@ -281,6 +277,7 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
   cursor: default;
   will-change: transform;
 }
+.skill-card .border-glow-inner { padding: 28px; }
 
 .skill-card:hover {
   transform: scale(1.04);
@@ -584,18 +581,21 @@ var expContainer = document.getElementById('exp-container');
 if (expContainer) {
   EXPERIENCE.forEach(function(e) {
     var card = document.createElement('div');
-    card.className = 'exp-card';
+    card.className = 'exp-card border-glow-card';
     card.innerHTML = 
-      '<div class="exp-header">' +
-        '<div>' +
-          '<div class="exp-role">' + e.role + '</div>' +
-          '<div class="exp-company">' + e.company + '</div>' +
+      '<span class="edge-light"></span>' +
+      '<div class="border-glow-inner">' +
+        '<div class="exp-header">' +
+          '<div>' +
+            '<div class="exp-role">' + e.role + '</div>' +
+            '<div class="exp-company">' + e.company + '</div>' +
+          '</div>' +
+          '<div class="exp-date">' + e.date + '</div>' +
         '</div>' +
-        '<div class="exp-date">' + e.date + '</div>' +
-      '</div>' +
-      '<ul class="exp-bullets">' +
-        e.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') +
-      '</ul>';
+        '<ul class="exp-bullets">' +
+          e.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') +
+        '</ul>' +
+      '</div>';
     expContainer.appendChild(card);
   });
 }
@@ -604,14 +604,17 @@ if (expContainer) {
 var sg = document.getElementById('skills-grid');
 SKILLS.forEach(function(s) {
   var card = document.createElement('div');
-  card.className = 'skill-card';
+  card.className = 'skill-card border-glow-card';
   card.innerHTML =
-    '<div class="skill-head">' +
-      '<div class="skill-icon-wrap">' + s.icon + '</div>' +
-      '<div class="skill-cat">' + s.cat + '</div>' +
-    '</div>' +
-    '<div class="skill-tags">' +
-      s.skills.map(function(sk){ return '<span class="stag">' + sk + '</span>'; }).join('') +
+    '<span class="edge-light"></span>' +
+    '<div class="border-glow-inner">' +
+      '<div class="skill-head">' +
+        '<div class="skill-icon-wrap">' + s.icon + '</div>' +
+        '<div class="skill-cat">' + s.cat + '</div>' +
+      '</div>' +
+      '<div class="skill-tags">' +
+        s.skills.map(function(sk){ return '<span class="stag">' + sk + '</span>'; }).join('') +
+      '</div>' +
     '</div>';
   sg.appendChild(card);
 });
