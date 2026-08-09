@@ -51,8 +51,10 @@ a,button{cursor:none;border:none;background:none;font:inherit;text-decoration:no
   position:fixed;inset:0;z-index:999999;
   background:#05060f;
   display:flex;align-items:center;justify-content:center;
-  animation:loaderExit 0.5s ease 1s forwards;
   pointer-events:all;
+}
+#page-loader.fade-out {
+  animation:loaderExit 0.5s ease forwards;
 }
 .loader-ring{
   width:44px;height:44px;
@@ -189,10 +191,13 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 .hero-line-inner{
   display:inline-block;
   will-change:transform;
-  animation:heroLineUp 1s cubic-bezier(0.22,1,0.36,1) 1.6s backwards;
+  opacity:0;
 }
-.hero-line:nth-child(2) .hero-line-inner{
-  animation-delay:1.75s;
+body.page-loaded .hero-line-inner{
+  animation:heroLineUp 1s cubic-bezier(0.22,1,0.36,1) 0.6s backwards;
+}
+body.page-loaded .hero-line:nth-child(2) .hero-line-inner{
+  animation-delay:0.75s;
 }
 @keyframes heroLineUp{
   from{transform:translateY(110%);opacity:0}
@@ -200,15 +205,19 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 }
 .hero-sub{
   font-size:18px;color:#1f2937;max-width:640px;margin:0 auto 48px;line-height:1.5;font-weight:500;
-  animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 2.05s backwards;
+  opacity:0;
+}
+body.page-loaded .hero-sub{
+  animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 1.05s backwards;
 }
 .hero-actions{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
-.hero-actions>*{
-  animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 2.1s backwards;
+.hero-actions>*{ opacity:0; }
+body.page-loaded .hero-actions>*{
+  animation:heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 1.1s backwards;
 }
-.hero-actions>*:nth-child(2){ animation-delay:2.15s; }
-.hero-actions>*:nth-child(3){ animation-delay:2.2s; }
-.hero-actions>*:nth-child(4){ animation-delay:2.25s; }
+body.page-loaded .hero-actions>*:nth-child(2){ animation-delay:1.15s; }
+body.page-loaded .hero-actions>*:nth-child(3){ animation-delay:1.2s; }
+body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
 @keyframes heroFadeUp{
   from{opacity:0;transform:translateY(20px) scale(0.95)}
   to{opacity:1;transform:translateY(0) scale(1)}
@@ -519,10 +528,45 @@ if (typeof Lenis !== 'undefined') {
     smoothWheel: true,
     smoothTouch: false,
   });
+  lenis.stop(); // Stop scroll while loading
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(function(time) { lenis.raf(time * 1000); });
   gsap.ticker.lagSmoothing(0);
 }
+
+/* ══════════════════════════════════════════════
+   BUFFER LOADER LOGIC
+══════════════════════════════════════════════ */
+(function() {
+  var loadStartTime = Date.now();
+  var minLoaderTime = 2000; // Force loader to spin for at least 2 seconds
+  var isLoaded = false;
+  
+  function triggerLoad() {
+    if (isLoaded) return;
+    isLoaded = true;
+    var elapsed = Date.now() - loadStartTime;
+    var remainingDelay = Math.max(0, minLoaderTime - elapsed);
+    
+    setTimeout(function() {
+      document.getElementById('page-loader').classList.add('fade-out');
+      document.body.classList.add('page-loaded');
+      if (lenis) lenis.start(); // Enable smooth scrolling
+      
+      // Show scroll hint after animations settle
+      var hint = document.getElementById('scroll-hint');
+      if (hint) {
+        setTimeout(function() { hint.classList.add('show'); }, 1400);
+      }
+    }, remainingDelay);
+  }
+
+  // Trigger when everything finishes loading
+  window.addEventListener('load', triggerLoad);
+  
+  // Failsafe in case 'load' never fires due to a blocked resource
+  setTimeout(triggerLoad, 5000);
+})();
 
 /* ══════════════════════════════════════════════
    SCROLL HINT — show after hero CSS animations settle
@@ -530,7 +574,6 @@ if (typeof Lenis !== 'undefined') {
 (function() {
   var hint = document.getElementById('scroll-hint');
   if (!hint) return;
-  setTimeout(function() { hint.classList.add('show'); }, 2400);
   function hideHint() {
     hint.classList.remove('show');
     window.removeEventListener('scroll', hideHint);
