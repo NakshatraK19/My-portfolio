@@ -37,8 +37,8 @@
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
-html{scroll-behavior:auto;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-body{background:var(--color-midnight-canvas);color:var(--color-frost-glow);font-family:var(--font-body);font-size:16px;line-height:1.5;overflow-x:hidden;cursor:none}
+html{scroll-behavior:auto;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;width:100%;overflow-x:hidden}
+body{background:var(--color-midnight-canvas);color:var(--color-frost-glow);font-family:var(--font-body);font-size:16px;line-height:1.5;width:100%;overflow-x:hidden;cursor:none}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:var(--color-midnight-canvas)}
 ::-webkit-scrollbar-thumb{background:var(--color-fog-veil);border-radius:2px}
@@ -361,12 +361,15 @@ nav.scrolled .nav-gh{border-color:var(--color-glass-edge);color:var(--color-fros
 
 @media(max-width: 768px) {
   nav { padding: 0 1rem; }
+  .nav-logo { font-size: 1rem; }
+  .nav-gh { display: none; }
   #about, #experience, #projects, #skills, #contact { padding: 100px 16px 40px; }
   .exp-card .border-glow-inner { padding: 20px; }
   .skill-card .border-glow-inner { padding: 20px; }
   .contact-card .border-glow-inner { flex-direction: column; text-align: center; gap: 16px; padding: 24px; }
   .sec-title { font-size: 28px; }
   .sec-eyebrow-wrap { flex-wrap: wrap; text-align: center; }
+  #resume-btn { bottom: 1rem; right: 1rem; }
 }
 </style>
 </head>
