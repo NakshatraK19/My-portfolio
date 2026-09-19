@@ -49,22 +49,52 @@ a,button{border:none;background:none;font:inherit;text-decoration:none;color:inh
 /* ══════════ PAGE LOADER ══════════ */
 #page-loader{
   position:fixed;inset:0;z-index:999999;
-  background:#05060f;
+  background:#fff;
   display:flex;align-items:center;justify-content:center;
   pointer-events:all;
+  border-bottom: 8px solid #000;
 }
 #page-loader.fade-out {
-  animation:loaderExit 0.5s ease forwards;
+  animation:loaderExit 0.6s cubic-bezier(0.87, 0, 0.13, 1) forwards;
 }
-.loader-ring{
-  width:44px;height:44px;
-  border:2px solid rgba(102,58,243,0.3);
-  border-top-color:#663af3;
-  border-radius:50%;
-  animation:loaderSpin 0.7s linear infinite;
+.arcade-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
-@keyframes loaderSpin{to{transform:rotate(360deg)}}
-@keyframes loaderExit{0%{opacity:1}100%{opacity:0;visibility:hidden;pointer-events:none}}
+.arcade-text {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 24px;
+  color: #000;
+  letter-spacing: 2px;
+  animation: blink 1s step-start infinite;
+}
+.arcade-bar {
+  width: 300px;
+  height: 32px;
+  border: 4px solid #000;
+  background: var(--color-bg);
+  padding: 4px;
+  box-shadow: 6px 6px 0px #000;
+}
+.arcade-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--color-accent-1);
+  animation: arcadeLoad 2.4s steps(12, end) forwards;
+}
+@keyframes arcadeLoad {
+  0% { width: 0%; background: var(--color-accent-1); }
+  33% { background: var(--color-accent-2); }
+  66% { background: var(--color-accent-3); }
+  100% { width: 100%; background: var(--color-accent-5); }
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+@keyframes loaderExit{to{transform:translateY(-100%);visibility:hidden}}
 
 /* ══════════ BACKGROUND ══════════ */
 #dot-field-container{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;will-change:opacity}
@@ -314,7 +344,14 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
 </head>
 <body>
 
-<div id="page-loader"><div class="loader-ring"></div></div>
+<div id="page-loader">
+  <div class="arcade-loader">
+    <div class="arcade-text">LOADING...</div>
+    <div class="arcade-bar">
+      <div class="arcade-fill"></div>
+    </div>
+  </div>
+</div>
 
 <div id="scroll-hint">
   <span class="scroll-hint-text">Scroll</span>
