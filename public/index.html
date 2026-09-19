@@ -70,11 +70,9 @@ a,button{cursor:none;border:none;background:none;font:inherit;text-decoration:no
 #dot-field-container{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;will-change:opacity}
 
 /* ══════════ CURSOR ══════════ */
-#cur-dot,#cur-ring{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-200px,-200px)}
-#cur-dot{width:6px;height:6px;background:var(--color-pure-white);box-shadow:0 0 8px var(--color-pure-white);margin:-3px 0 0 -3px;transition:background .2s,box-shadow .2s}
-#cur-ring{width:32px;height:32px;border:1px solid rgba(186,215,247,0.4);margin:-16px 0 0 -16px;mix-blend-mode:difference;will-change:transform;transition:width .3s,height .3s,margin .3s,border-color .3s}
-.cur-link #cur-dot{background:var(--color-ice-highlight)!important;box-shadow:0 0 10px var(--color-ice-highlight)!important}
-.cur-link #cur-ring{width:48px!important;height:48px!important;margin:-24px 0 0 -24px!important;border-color:rgba(186,215,247,0.8)!important}
+body, a, button, .nav-cta, #resume-btn, .proj-card {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpolygon fill='%23000000' stroke='%23FFFFFF' stroke-width='1.5' points='1,1 1,22 6,17 10,23 14,21 10,15 17,15'/%3E%3C/svg%3E"), auto !important;
+}
 
 /* ══════════ BORDER GLOW CARDS ══════════ */
 .border-glow-card {
@@ -403,9 +401,6 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
     <circle id="dot-glow" cx="-9999" cy="-9999" r="160" fill="url(#dot-glow-grad)" style="opacity:0;will-change:opacity;" />
   </svg>
 </div>
-
-<div id="cur-ring"></div>
-<div id="cur-dot"></div>
 
 <nav id="nav">
   <div class="nav-logo">Nakshatra Kaushik</div>
@@ -1075,27 +1070,24 @@ PROJECTS.forEach(function(p, i) {
   requestAnimationFrame(tick);
 })();
 
-/* ══════ CURSOR ══════ */
+/* ══════ CURSOR TRAIL ══════ */
 (function(){
   if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-  var dot = document.getElementById('cur-dot'), ring = document.getElementById('cur-ring');
-  var rx = -200, ry = -200, rmx = -200, rmy = -200;
+  var px = -100, py = -100;
   window.addEventListener('mousemove', function(e) {
-    dot.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
-    rmx = e.clientX; rmy = e.clientY;
-    if (Math.random() < 0.15) {
+    var dist = Math.hypot(e.clientX - px, e.clientY - py);
+    if (dist > 15) { // Spawn a trail box every 15px of movement
+      px = e.clientX; py = e.clientY;
       var t = document.createElement('div');
-      t.style.cssText = 'position:fixed;width:2px;height:2px;border-radius:50%;background:var(--color-ice-highlight);pointer-events:none;z-index:9990;left:' + e.clientX + 'px;top:' + e.clientY + 'px;transform:translate(-50%,-50%);opacity:.5;transition:opacity .4s,transform .4s;';
+      t.style.cssText = 'position:fixed;width:6px;height:6px;background:#000;border:1px solid #fff;pointer-events:none;z-index:9990;left:' + e.clientX + 'px;top:' + e.clientY + 'px;transform:translate(2px, 12px);opacity:1;transition:opacity 0.6s ease-out, transform 0.6s ease-out;';
       document.body.appendChild(t);
-      requestAnimationFrame(function() { t.style.opacity = '0'; t.style.transform = 'translate(-50%,-50%) scale(0.1)'; });
-      setTimeout(function() { t.remove(); }, 450);
+      requestAnimationFrame(function() { 
+        t.style.opacity = '0'; 
+        t.style.transform = 'translate(2px, 24px) scale(0.5)'; 
+      });
+      setTimeout(function() { t.remove(); }, 600);
     }
   });
-  (function anim() { rx += (rmx - rx) * 0.15; ry += (rmy - ry) * 0.15; ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)'; requestAnimationFrame(anim); })();
-  document.addEventListener('mouseover', function(e) { if (e.target.closest('a,button,.proj-card,.skill-card,.contact-card')) document.body.classList.add('cur-link'); });
-  document.addEventListener('mouseout',  function(e) { if (e.target.closest('a,button,.proj-card,.skill-card,.contact-card')) document.body.classList.remove('cur-link'); });
-  document.addEventListener('mouseleave', function() { dot.style.opacity = '0'; ring.style.opacity = '0'; });
-  document.addEventListener('mouseenter', function() { dot.style.opacity = '1'; ring.style.opacity = '1'; });
 })();
 
 /* ══════ COPY EMAIL ══════ */
