@@ -39,7 +39,7 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 html{scroll-behavior:auto;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;width:100%;overflow-x:hidden}
-body{background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:16px;line-height:1.5;width:100%;overflow-x:hidden;}
+body{background-color:var(--color-bg);background-image:radial-gradient(#000 2px, transparent 2px);background-size:32px 32px;color:var(--color-text);font-family:var(--font-body);font-size:16px;line-height:1.5;width:100%;overflow-x:hidden;}
 ::-webkit-scrollbar{width:12px; border-left: var(--border-thick);}
 ::-webkit-scrollbar-track{background:var(--color-bg)}
 ::-webkit-scrollbar-thumb{background:#000; border:2px solid var(--color-bg);}
@@ -148,7 +148,7 @@ nav.scrolled{background:var(--color-accent-2); box-shadow: 0px 4px 0px #000;}
 .sec-sub{font-size:18px;color:#000;max-width:640px; font-weight: 600; text-align:center;}
 
 /* ══════════ HERO ══════════ */
-#about{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 24px 60px;z-index:1;overflow:hidden; border-bottom: 8px solid #000; background: var(--color-accent-4); background-image: radial-gradient(#000 2px, transparent 2px); background-size: 32px 32px;}
+#about{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 24px 60px;z-index:1;overflow:hidden; border-bottom: 8px solid #000; background-color: var(--color-accent-4); background-image: radial-gradient(#000 2px, transparent 2px); background-size: 32px 32px;}
 .hero-vid{display:none;}
 .hero-inner{max-width:1200px;margin:0 auto;width:100%;text-align:center;position:relative;z-index:2;will-change:transform; background: #fff; padding: 60px; border: var(--border-thick); box-shadow: var(--shadow-hard);}
 .hero-inner .sec-eyebrow{color:#000;font-weight:700; background: var(--color-accent-2);}
@@ -201,7 +201,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
 #scroll-hint{display:none;}
 
 /* ══════════ EXPERIENCE ══════════ */
-#experience { position: relative; padding: 120px 24px; z-index: 1; border-bottom: 8px solid #000; background: var(--color-bg); }
+#experience { position: relative; padding: 120px 24px; z-index: 1; border-bottom: 8px solid #000; }
 .exp-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
 .exp-card {
   border-radius: 0;
@@ -307,7 +307,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
 .proj-link:hover{color:var(--color-accent-1)}
 
 /* ══════════ CONTACT ══════════ */
-#contact{position:relative;padding:120px 24px 60px;z-index:1; background: var(--color-accent-3); border-bottom: 8px solid #000;}
+#contact{position:relative;padding:120px 24px 60px;z-index:1; background-color: var(--color-accent-3); background-image: radial-gradient(#000 2px, transparent 2px); background-size: 32px 32px; border-bottom: 8px solid #000;}
 .contact-grid{max-width:640px;margin:0 auto}
 .contact-card{background:#fff; border:var(--border-thick); box-shadow: var(--shadow-hard); margin-bottom: 24px; display:flex;align-items:center;justify-content:space-between; padding: 24px;}
 .contact-card .neo-inner{flex-direction:row;align-items:center;justify-content:space-between; padding: 0;}
