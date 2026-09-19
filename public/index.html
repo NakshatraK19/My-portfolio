@@ -107,12 +107,15 @@ nav.scrolled{background:var(--color-accent-2); box-shadow: 0px 4px 0px #000;}
 .nav-gh:hover{transform:translate(2px,2px); box-shadow: 2px 2px 0px #000; background: var(--color-accent-1);}
 
 /* ══════════ SECTION HEADERS ══════════ */
-.sec-header{text-align:left;margin-bottom:60px;position:relative;z-index:10; border-bottom: 4px solid #000; padding-bottom: 20px;}
-.sec-eyebrow-wrap{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.sec-header{text-align:center;margin-bottom:60px;position:relative;z-index:10; border-bottom: 8px solid #000; padding-bottom: 30px; display:flex; flex-direction:column; align-items:center; overflow:hidden;}
+.sec-eyebrow-wrap{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px}
 .sec-eyebrow-line{display:none;}
 .sec-eyebrow{font-family:var(--font-mono);font-size:16px;font-weight: 700;letter-spacing:0.05em;color:var(--color-accent-1);text-transform:uppercase; background: #000; padding: 4px 12px; border: 2px solid #000;}
-.sec-title{font-family:var(--font-display);font-weight:700;font-size:clamp(32px, 6vw, 56px);line-height:1;color:#000;margin-bottom:16px; text-transform: uppercase; letter-spacing: -1px; text-shadow: 2px 2px 0px var(--color-accent-2);}
-.sec-sub{font-size:18px;color:#000;max-width:640px; font-weight: 500;}
+.sec-title{font-family:var(--font-display);font-weight:800;font-size:clamp(40px, 8vw, 80px);line-height:1;color:#000;margin-bottom:24px; text-transform: uppercase; letter-spacing: -2px; text-shadow: 4px 4px 0px var(--color-accent-2); white-space: nowrap; width: 100vw; margin-left: calc(-50vw + 50%); display: flex; overflow: hidden;}
+.marquee-track{display:flex;width:max-content;animation:scrollMarquee 15s linear infinite;will-change:transform;}
+.marquee-track span{padding:0 10px;}
+@keyframes scrollMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.sec-sub{font-size:18px;color:#000;max-width:640px; font-weight: 600; text-align:center;}
 
 /* ══════════ HERO ══════════ */
 #about{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 24px 60px;z-index:1;overflow:hidden; border-bottom: 8px solid #000; background: var(--color-accent-4); background-image: radial-gradient(#000 2px, transparent 2px); background-size: 32px 32px;}
@@ -376,7 +379,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
       <div class="sec-eyebrow">Career</div>
       <div class="sec-eyebrow-line"></div>
     </div>
-    <h2 class="sec-title">Experience & Education</h2>
+    <h2 class="sec-title"><div class="marquee-track"><span>EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | </span><span>EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | EXPERIENCE & EDUCATION | </span></div></h2>
     <p class="sec-sub">Building scalable platforms and intelligent systems.</p>
   </div>
   <div class="exp-container" id="exp-container"></div>
@@ -389,7 +392,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
       <div class="sec-eyebrow">Capabilities</div>
       <div class="sec-eyebrow-line"></div>
     </div>
-    <h2 class="sec-title">Skills &amp; Expertise</h2>
+    <h2 class="sec-title"><div class="marquee-track"><span>SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | </span><span>SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | SKILLS & EXPERTISE | </span></div></h2>
     <p class="sec-sub">A fusion of ECE fundamentals and cutting-edge AI — built through hands-on work with leading industry platforms.</p>
   </div>
   <div class="skills-grid" id="skills-grid"></div>
@@ -402,7 +405,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
       <div class="sec-eyebrow">Selected Work</div>
       <div class="sec-eyebrow-line"></div>
     </div>
-    <h2 class="sec-title">Featured Projects</h2>
+    <h2 class="sec-title"><div class="marquee-track"><span>FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | </span><span>FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | FEATURED PROJECTS | </span></div></h2>
     <p class="sec-sub">Building intelligent systems at the intersection of AI research and production engineering.</p>
   </div>
   <div class="proj-list-container" id="proj-grid"></div>
@@ -415,7 +418,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
       <div class="sec-eyebrow">Get in touch</div>
       <div class="sec-eyebrow-line"></div>
     </div>
-    <h2 class="sec-title">Let's Build Something Intelligent</h2>
+    <h2 class="sec-title"><div class="marquee-track"><span>LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | </span><span>LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | </span></div></h2>
   </div>
   <div class="contact-grid">
     <div class="contact-card neo-card">
