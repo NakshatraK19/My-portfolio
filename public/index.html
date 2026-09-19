@@ -150,7 +150,7 @@ nav.scrolled{background:var(--color-accent-2); box-shadow: 0px 4px 0px #000;}
 /* ══════════ HERO ══════════ */
 #about{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 24px 60px;z-index:1;overflow:hidden; border-bottom: 8px solid #000; background: var(--color-accent-4); background-image: radial-gradient(#000 2px, transparent 2px); background-size: 32px 32px;}
 .hero-vid{display:none;}
-.hero-inner{max-width:1200px;margin:0 auto;width:100%;text-align:left;position:relative;z-index:2;will-change:transform; background: #fff; padding: 60px; border: var(--border-thick); box-shadow: var(--shadow-hard);}
+.hero-inner{max-width:1200px;margin:0 auto;width:100%;text-align:center;position:relative;z-index:2;will-change:transform; background: #fff; padding: 60px; border: var(--border-thick); box-shadow: var(--shadow-hard);}
 .hero-inner .sec-eyebrow{color:#000;font-weight:700; background: var(--color-accent-2);}
 .hero-wordmark{font-family:var(--font-display);font-weight:800;font-size:clamp(3rem, 12vw, 9rem);line-height:0.9;color:#000;margin-bottom:32px;letter-spacing:-0.04em; text-shadow: 4px 4px 0px var(--color-accent-1); text-transform: uppercase;}
 
@@ -217,10 +217,11 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
   transform: translate(4px, 4px);
   box-shadow: var(--shadow-hard-hover);
 }
-.exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
-.exp-role { font-size: 24px; font-weight: 800; color: #000; line-height: 1.2; margin-bottom: 8px; text-transform: uppercase; }
+.exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; gap: 16px; flex-wrap: nowrap; }
+.exp-header > div:first-child { flex: 1 1 0%; padding-right: 16px; min-width: 0; }
+.exp-role { font-family: var(--font-display); font-size: 26px; font-weight: 800; color: #000; line-height: 1.2; margin-bottom: 8px; text-transform: uppercase; }
 .exp-company { font-size: 18px; color: var(--color-accent-5); font-weight: 700; text-transform: uppercase;}
-.exp-date { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #000; background: var(--color-accent-2); padding: 6px 12px; border: 2px solid #000; box-shadow: 2px 2px 0px #000;}
+.exp-date { flex-shrink: 0; font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #000; background: var(--color-accent-2); padding: 6px 12px; border: 2px solid #000; box-shadow: 2px 2px 0px #000; white-space: nowrap; }
 .exp-bullets { list-style: none; padding: 0; margin: 0; color: #000; font-size: 16px; line-height: 1.6; font-weight: 500;}
 .exp-bullets li { position: relative; padding-left: 24px; margin-bottom: 12px; }
 .exp-bullets li::before { content: '■'; position: absolute; left: 0; color: var(--color-accent-1); font-size: 12px; line-height: 1.8; }
@@ -386,7 +387,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
   <div class="hero-inner">
     <div class="sec-eyebrow-wrap">
       <div class="sec-eyebrow-line"></div>
-      <div class="sec-eyebrow">GEN-AI &amp; AIoT ENGINEER</div>
+      <div class="sec-eyebrow">AI ENGINEER</div>
       <div class="sec-eyebrow-line"></div>
     </div>
     <h1 class="hero-wordmark">
@@ -455,7 +456,7 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
       <div class="sec-eyebrow">Get in touch</div>
       <div class="sec-eyebrow-line"></div>
     </div>
-    <h2 class="sec-title"><div class="marquee-track"><span>LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | </span><span>LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | LET'S BUILD SOMETHING INTELLIGENT | </span></div></h2>
+    <h2 class="sec-title"><div class="marquee-track"><span>CONTACT ME | CONTACT ME | CONTACT ME | CONTACT ME | CONTACT ME | CONTACT ME | </span><span>CONTACT ME | CONTACT ME | CONTACT ME | CONTACT ME | CONTACT ME | CONTACT ME | </span></div></h2>
   </div>
   <div class="contact-grid">
     <div class="contact-card neo-card">
@@ -547,11 +548,12 @@ if (typeof Lenis !== 'undefined') {
 
 /* ══════ DATA ══════ */
 var SKILLS = [
-  {cat:'Gen AI & Foundation Models',icon:'⬡',skills:['Claude','Ollama','HF Transformers','OpenAI','Amazon Nova']},
-  {cat:'Cloud AI Platforms',icon:'◈',skills:['AWS SageMaker','Azure AI','Cloud Solutions']},
-  {cat:'Edge AI & Embedded',icon:'◎',skills:['Edge Impulse','Qualcomm AI Hub','TinyML','NVIDIA NeMo','CUDA','IoT']},
-  {cat:'Programming',icon:'⬢',skills:['Python','MySQL','Selenium','REST APIs','C++','C']},
-  {cat:'Embedded Electronics',icon:'⬡',skills:['Microcontrollers','Arduino','DSP','Analog Circuits','LTSpice']},
+  {cat:'Languages & Core',icon:'■',skills:['Python','TypeScript','C++','Dart','Swift','Bash']},
+  {cat:'AI & ML Frameworks',icon:'■',skills:['Hugging Face','Langchain','PyTorch','OpenAI','Numpy']},
+  {cat:'Web & Backend',icon:'■',skills:['Next.js','React','Node.js','Express','Flask','TailwindCSS']},
+  {cat:'Cloud & DevOps',icon:'■',skills:['AWS','Docker','Git','Linux']},
+  {cat:'Automation & Tools',icon:'■',skills:['Selenium','Streamlit','Beautiful Soup']},
+  {cat:'IoT & Hardware',icon:'■',skills:['Raspberry Pi','Arduino','ESP32']}
 ];
 
 var PROJECTS = [
