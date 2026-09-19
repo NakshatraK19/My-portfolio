@@ -154,6 +154,47 @@ nav.scrolled{background:var(--color-accent-2); box-shadow: 0px 4px 0px #000;}
 .hero-inner .sec-eyebrow{color:#000;font-weight:700; background: var(--color-accent-2);}
 .hero-wordmark{font-family:var(--font-display);font-weight:800;font-size:clamp(3rem, 12vw, 9rem);line-height:0.9;color:#000;margin-bottom:32px;letter-spacing:-0.04em; text-shadow: 4px 4px 0px var(--color-accent-1); text-transform: uppercase;}
 
+/* ══════════ HERO RIBBONS ══════════ */
+.hero-ribbon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120vw;
+  background: var(--color-accent-2);
+  border-top: 6px solid #000;
+  border-bottom: 6px solid #000;
+  padding: 16px 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 24px;
+  color: #000;
+  white-space: nowrap;
+  display: flex;
+  overflow: hidden;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.hero-ribbon-front {
+  transform: translate(-50%, -50%) rotate(-4deg);
+  z-index: 3;
+  box-shadow: 0px 8px 0px rgba(0,0,0,0.4);
+}
+.hero-ribbon-back {
+  transform: translate(-50%, -50%) rotate(-4deg);
+  z-index: 1;
+  filter: brightness(0.7) contrast(1.2);
+}
+.marquee-track-reverse {
+  display: flex;
+  width: max-content;
+  animation: scrollMarqueeReverse 15s linear infinite;
+  will-change: transform;
+}
+@keyframes scrollMarqueeReverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}
+
 /* Split text containers — delays start AFTER loader is gone (1.5s) */
 .hero-line{overflow:hidden;display:block}
 .hero-line-inner{
@@ -385,6 +426,11 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
 
 <section id="about">
   <video id="hero-vid" class="hero-vid" autoplay loop muted playsinline src="16-9.mp4"></video>
+  <div class="hero-ribbon hero-ribbon-back">
+    <div class="marquee-track-reverse">
+      <span>SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | </span><span>SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | </span>
+    </div>
+  </div>
   <div class="hero-inner">
     <div class="sec-eyebrow-wrap">
       <div class="sec-eyebrow-line"></div>
@@ -407,6 +453,11 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
       <a href="mailto:nkshtrkaushik@outlook.in" class="btn-icon" title="Email">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
       </a>
+    </div>
+  </div>
+  <div class="hero-ribbon hero-ribbon-front">
+    <div class="marquee-track">
+      <span>SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | </span><span>SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | SYSTEMS ENGINEER | AIoT ENGINEER | AI ENGINEER | GENERATIVE AI | AUTOMATION | EMBEDDED SYSTEMS ENGINEER | </span>
     </div>
   </div>
 </section>
