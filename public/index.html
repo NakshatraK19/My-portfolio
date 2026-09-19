@@ -157,7 +157,7 @@ nav.scrolled{background:var(--color-accent-2); box-shadow: 0px 4px 0px #000;}
 .sec-eyebrow-wrap{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px}
 .sec-eyebrow-line{display:none;}
 .sec-eyebrow{font-family:var(--font-mono);font-size:16px;font-weight: 700;letter-spacing:0.05em;color:var(--color-accent-1);text-transform:uppercase; background: #000; padding: 4px 12px; border: 2px solid #000;}
-.sec-title{font-family:var(--font-display);font-weight:800;font-size:clamp(40px, 8vw, 80px);line-height:1;color:#000;margin-bottom:24px; text-transform: uppercase; letter-spacing: -2px; text-shadow: 4px 4px 0px var(--color-accent-2); white-space: nowrap; width: 100vw; margin-left: calc(-50vw + 50%); display: flex; overflow: hidden;}
+.sec-title{font-family:var(--font-display);font-weight:800;font-size:clamp(40px, 8vw, 80px);line-height:1;color:#000;margin-bottom:24px; text-transform: uppercase; letter-spacing: -2px; text-shadow: 4px 4px 0px var(--color-accent-2); white-space: nowrap; width: 100vw; margin-left: calc(-50vw + 50%); display: flex; overflow: hidden; padding-bottom: 8px;}
 .marquee-track{display:flex;width:max-content;animation:scrollMarquee 15s linear infinite;will-change:transform;}
 .marquee-track span{padding:0 10px;}
 @keyframes scrollMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -392,9 +392,12 @@ body.page-loaded .hero-actions>*:nth-child(4){ animation-delay:1.25s; }
   .nav-logo { font-size: 1rem; }
   .nav-gh { display: none; }
   #about { padding: 100px 16px 40px; }
-  #experience, #projects, #skills, #contact { padding: 0 16px 40px; }
+  #experience, #projects, #skills { padding: 0 16px 40px; }
+  #contact { padding: 0 16px 100px; }
   .hero-inner { padding: 32px 16px; }
   .hero-wordmark { font-size: clamp(2.5rem, 10vw, 9rem); }
+  .hero-actions { gap: 10px; }
+  .sec-header { margin-bottom: 40px; padding: 32px 0; border-top: 6px solid #000; border-bottom: 6px solid #000; }
   .exp-header { flex-direction: column; gap: 12px; }
   .exp-header > div:first-child { padding-right: 0; }
   .exp-date { align-self: flex-start; }
